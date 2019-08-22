@@ -1,3 +1,70 @@
+$(document).ready(function() {
+  console.log('jquery works!')
+
+  $('#train').click(function() {
+    $('.splash-screen').css('display','none');
+  })
+
+  $('#toggle-instructions').click(function() {
+    $('.instructions').slideToggle('fast')
+  })
+
+  function get(user) {
+    if (!localStorage.getItem(user)) {
+        localStorage.setItem(user, JSON.stringify({score: [0,0]}))
+        $('.welcome').html(`Welcome, ${user}!`)
+    } else {
+      localStorage.getItem(user)
+      $('.welcome').html(`Welcome back, ${user}!`)
+
+    }
+
+    updateScore(user)
+    $('#username').val('')
+    return;
+  }
+
+  function remove(user) {
+    localStorage.removeItem(user);
+    $('.welcome').html('')
+    updateScore(user)
+    return;
+  }
+
+  function removeAll() {
+    localStorage.clear()
+    $('.welcome').html('')
+    return;
+  }
+
+function updateScore(user) {
+  let userData = JSON.parse(localStorage.getItem(user));
+  if (userData) {
+    $('#score').html(`Score: ${userData.score[0]} / ${userData.score[1]}`)
+  }
+
+
+}
+
+  $('#submitUser').click(function() {
+    if ($('#username').val() === '') {
+      alert('Please enter a username')
+      return;
+    }
+    get($('#username').val())
+  })
+
+$('#deleteUser').click(function() {
+  remove($('#username').val())
+})
+
+$('#deleteAll').click(removeAll);
+
+
+})
+
+
+
 /*
 Use local storage to add a user and keep tracker of their progress
 If user is new, output  "Welcome, user!" else, "Welcome back, user!"

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./resources/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/15c0eaad51.js"></script>
+  </head>
+  <div class="splash-screen">
+    <h1>Ear Trainer</h1>
+    <p>by Michael Scanza</p>
+    <div id="train">Train</div>
+  </div>
+  <div class="container">
+    <div class=user>
+      Username:
+      <input type="text" id="username" placeholder="Enter username">
+      <div class="buttons">
+        <button id="submitUser">Submit</button>
+        <button id="deleteUser">Delete User</button>
+        <button id="deleteAll">Delete All Users</button>
+      </div>
+    </div>
+
+    <div class="score-container">
+      <h2 id="score">Score: N / A</h2>
+    </div>
+
+    <div class="welcome"></div>
+    <div class="instructions-container">
+      <h2 id="toggle-instructions">Instructions <i class="fas fa-caret-down"></i></h2>
+      <div class="instructions">Ear Training is the ability to understand how one pitch or note is relative to another. One basic way to do this is to compare 2 pitches, and discern which pitch has a higher frequency than the other, or if they are in fact the same pitch frequency.  Make sure your sound is on and have fun!</div>
+    </div>
+  </div>
+
+
+  <body>
+
+
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script src="./resources/app.js"></script>
+  </body>
+</html>
+
