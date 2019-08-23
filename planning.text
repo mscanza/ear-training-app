@@ -1,0 +1,51 @@
+Use local storage to add a user and keep tracker of their progress
+If user is new, output  "Welcome, user!" else, "Welcome back, user!"
+
+Have a closeable directions div.
+
+
+have a game div which has 2 pitches which can be played.
+have a radio syle form which has user options to input the answer.
+a next button will check the current answer, and move on to the next.
+There will be a reset button which can start to game from scratch, otherwise the score will keep track of how many questions the user has attempted.
+
+data:
+User:
+will add a key to local storage for each new user.
+if user already exists in database, welcome back user.
+delete user - removes user from local storage.
+reset progress, clears score to [0,0]
+each key will hold an object that will hold information, starting with score:
+score[0] = correct answers
+score[1] = questions attempted.
+{
+  'michael': {score: [0,0]},
+  'joe': {score: [1,2]}
+}
+
+sounds will be stored in an array of arrays, along with their urls or audio files, sorted from lowest to highest:
+MVP - will start with only 1 octave, but can increase as needed.
+
+const sounds = [['A','audio file url'],['B','audio file url'],['C','audio file url'],['D','audio file url'],['E','audio file url'],['F','audio file url'],['G','audio file url']]
+
+questions will randomly select 2 indeces from this array, ie:
+
+sound1 : sounds[1] => ['B','audio file url']
+sound2:  sounds[3] => ['D','audio file url']
+
+determine which index is lower, ie 'B' is a lower note than 'D', (in this example), and the index (1) is lower than index (3)
+
+Radio buttons for answers will include:
+
+Pitch 1 is higher     => sounds.indexOf(sound1) > sounds.indexOf(sound2);
+Pitch2 is higher      => sounds.indexOf(sound2) > sounds.indexOf(sound1)
+Pitches are the same  => sounds.indexOf(sound1) === sounds.indexOf(sound2)
+
+If answer returns true, answer is correct. Is false, answer is incorrect.
+Score gets updated.
+
+Exmaple:
+user 'michael' get first question wrong.
+{'michael': {score: [0,1]}}
+user 'michael' get second question right.
+{'michael': {score: [1,2]}}
