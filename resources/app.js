@@ -3,29 +3,35 @@ $(document).ready(function() {
 
   //sound database
   const sounds = [
-    ['a', 'sounds a url'],
-    ['b', 'sounds a url'],
-    ['c', 'sounds a url'],
-    ['d', 'sounds a url'],
-    ['e', 'sounds a url'],
-    ['f', 'sounds a url'],
-    ['g', 'sounds a url']
+    ['a4', "./resources/audio-files/a4.wav"],
+    ['b4', "./resources/audio-files/b4.wav"],
+    ['c5', "./resources/audio-files/c5.wav"],
+    ['d5', "./resources/audio-files/d5.wav"],
+    ['e5', "./resources/audio-files/e5.wav"],
+    ['f5', "./resources/audio-files/f5.wav"],
+    ['g5', "./resources/audio-files/g5.wav"]
   ]
   let pitch1;
   let pitch2;
 
+  let pitch1Audio;
+  let pitch2Audio;
+
+  initialize()
 
   //click handlers
-
-  $('#logout').click(function() {
-    $('.splash-screen').css('display', 'flex');
-    initialize();
+  $('#playPitch1').click(function() {
+    pitch1Audio.play()
   })
 
+  $('#playPitch2').click(function() {
+    pitch2Audio.play()
+  })
 
   $('#toggle-instructions').click(function() {
     $('.instructions').slideToggle('fast')
   })
+
 
   $('#submitUser').click(function() {
     if ($('#username').val() === '') {
@@ -53,17 +59,28 @@ $(document).ready(function() {
   });
 
   $('#question').submit(function(e) {
+    let parsedScore = JSON.parse(localStorage.getItem($('#username').val())).score
     e.preventDefault();
     let guess = $('input[name=pitch]:checked', '#question').val()
     if (checkAnswer(guess) === true) {
       alert('Congratulations! That is correct.')
+      parsedScore[0]++;
+
     } else {
       alert('Sorry. That is incorrect.')
     }
+    parsedScore[1]++
+    localStorage.setItem($('#username').val(), JSON.stringify({ score: parsedScore }))
+    updateScore($('#username').val())
     initialize();
     return;
   })
 
+  $('#logout').click(function() {
+    $('.splash-screen').css('display', 'flex');
+    $('#username').val('');
+    initialize();
+  })
 
   //functions
 
@@ -77,20 +94,19 @@ $(document).ready(function() {
     }
     $('.splash-screen').css('display', 'none');
     updateScore(user)
-    $('#username').val('')
     return;
   }
 
   function remove(user) {
     localStorage.removeItem(user);
     $('.welcome').html('')
-    updateScore(user)
     return;
   }
 
   function removeAll() {
     localStorage.clear()
     $('.welcome').html('')
+    alert('All users successfully deleted.')
     return;
   }
 
@@ -117,7 +133,9 @@ $(document).ready(function() {
     document.getElementById('question').reset()
     pitch1 = sounds[Math.floor(Math.random() * sounds.length)];
     pitch2 = sounds[Math.floor(Math.random() * sounds.length)];
+
+    pitch1Audio = document.createElement('audio'); pitch1Audio.setAttribute('src', pitch1[1]);
+    pitch2Audio = document.createElement('audio')
+    pitch2Audio.setAttribute('src', pitch2[1]);
   }
-
-
 })

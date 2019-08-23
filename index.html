@@ -34,26 +34,26 @@
             <div class="instructions">Ear Training is the ability to understand how one pitch or note relates to another. One basic way to do this is to compare 2 pitches, and discern which pitch has a higher frequency than the other, or if they are in fact the same pitch frequency.<br><br>
               Listen to both pitches and determine which is higher. Make sure your sound is on and have fun!</div>
           </div>
-          <small>Listen to both pitches and choose one answer below.</small>
+          <small>Adjust audio to low. Listen to both pitches. Which pitch is higher?</small>
           <div class="test">
             <form id="question">
               <div class="pitches">
-                  <p>Pitch 1: <i class="fas fa-play"></i></p>
-                  <p>Pitch 2: <i class="fas fa-play"></i></p>
+                  <p id="playPitch1">Pitch 1: <i class="fas fa-play"></i></p>
+                  <p id="playPitch2">Pitch 2: <i class="fas fa-play"></i></p>
               </div>
 
               <div class="radio-container">
                   <div>
                       <input type="radio" name="pitch" value="pitch1" required>
-                      <label for="pitch1">Pitch 1 is higher</label>
+                      <label for="pitch1">Pitch 1</label>
                     </div>
                     <div>
                         <input type="radio" name="pitch" value="pitch2" required>
-                        <label for="pitch2">Pitch 2 is higher</label>
+                        <label for="pitch2">Pitch 2</label>
                     </div>
                     <div>
                       <input type="radio" name="pitch" value="same" required>
-                      <label for="same">Pitches are the same</label>
+                      <label for="same">Pitches are the same.</label>
                     </div>
               </div>
               <input class="button" id="submitAnswer" type="submit" name="">
