@@ -12,16 +12,16 @@
           <div class=user>
               <input type="text" id="username" placeholder="Enter username">
               <div class="buttons">
-                <button id="submitUser">Login</button>
-                <button id="deleteUser">Delete User</button>
-                <button id="deleteAll">Delete All Users</button>
+                <button class="button" id="submitUser">Login</button>
+                <button class="button" id="deleteUser">Delete User</button>
+                <button class="button" id="deleteAll">Delete All Users</button>
               </div>
             </div>
             <p id="copyright">©Michael Scanza 2019</p>
         </div>
         <div class="container">
           <div>
-            <button id="logout">Logout</button>
+            <button class="button" id="logout">Logout</button>
           </div>
 
           <div class="score-container">
@@ -36,7 +36,7 @@
           </div>
           <small>Listen to both pitches and choose one answer below.</small>
           <div class="test">
-            <form>
+            <form id="question">
               <div class="pitches">
                   <p>Pitch 1: <i class="fas fa-play"></i></p>
                   <p>Pitch 2: <i class="fas fa-play"></i></p>
@@ -44,18 +44,19 @@
 
               <div class="radio-container">
                   <div>
-                      <input type="radio" value="pitch1" required>
+                      <input type="radio" name="pitch" value="pitch1" required>
                       <label for="pitch1">Pitch 1 is higher</label>
                     </div>
                     <div>
-                        <input type="radio" value="pitch2" required>
+                        <input type="radio" name="pitch" value="pitch2" required>
                         <label for="pitch2">Pitch 2 is higher</label>
                     </div>
                     <div>
-                      <input type="radio" value="same" required>
+                      <input type="radio" name="pitch" value="same" required>
                       <label for="same">Pitches are the same</label>
                     </div>
               </div>
+              <input class="button" id="submitAnswer" type="submit" name="">
             </form>
           </div>
         </div>

@@ -50,7 +50,7 @@ body {
   font-size: 16px;
   height: 20px;
   border-radius: 5px;
-  padding: 2px;
+  padding: 5px 15px;
 }
 
 .user {
@@ -79,12 +79,15 @@ body {
   color: purple;
 }
 
-button {
+.button {
   border: 2px solid dodgerblue;
   border-radius: 5px;
   margin: 5px 2px;
+  min-width: 50px;
+  padding: 5px 15px;
+  font-size: 18px;
 }
-button:hover {
+.button:hover {
   background-color: dodgerblue;
   color: white;
 }
@@ -131,7 +134,19 @@ small {
   margin-bottom: -1em;
 }
 
+#submitAnswer {
+  margin-top: 150px;
+  margin-left: 220px;
+  position: absolute;
+}
+
 #copyright {
   position: absolute;
   bottom: 10px;
+}
+
+#logout {
+  position: absolute;
+  left: 15px;
+  top: 15px;
 }
