@@ -1,9 +1,10 @@
 $(document).ready(function() {
   console.log('jquery works!')
 
-  $('#train').click(function() {
-    $('.splash-screen').css('display','none');
-  })
+$('#logout').click(function() {
+  $('.splash-screen').css('display','flex');
+})
+
 
   $('#toggle-instructions').click(function() {
     $('.instructions').slideToggle('fast')
@@ -16,9 +17,8 @@ $(document).ready(function() {
     } else {
       localStorage.getItem(user)
       $('.welcome').html(`Welcome back, ${user}!`)
-
     }
-
+    $('.splash-screen').css('display','none');
     updateScore(user)
     $('#username').val('')
     return;
@@ -55,10 +55,21 @@ function updateScore(user) {
   })
 
 $('#deleteUser').click(function() {
-  remove($('#username').val())
+  if (!localStorage.getItem($('#username').val())) {
+    alert('User does not exist')
+  } else {
+    remove($('#username').val())
+    alert($('#username').val() + ' successfully deleted')
+    $('#username').val('')
+  }
+  return;
 })
 
-$('#deleteAll').click(removeAll);
+$('#deleteAll').click(function(){
+  removeAll()
+  $('#username').val('')
+  return;
+});
 
 
 })

@@ -6,35 +6,59 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/15c0eaad51.js"></script>
   </head>
-  <div class="splash-screen">
-    <h1>Ear Trainer</h1>
-    <p>by Michael Scanza</p>
-    <div id="train">Train</div>
-  </div>
-  <div class="container">
-    <div class=user>
-      Username:
-      <input type="text" id="username" placeholder="Enter username">
-      <div class="buttons">
-        <button id="submitUser">Submit</button>
-        <button id="deleteUser">Delete User</button>
-        <button id="deleteAll">Delete All Users</button>
-      </div>
-    </div>
-
-    <div class="score-container">
-      <h2 id="score">Score: N / A</h2>
-    </div>
-
-    <div class="welcome"></div>
-    <div class="instructions-container">
-      <h2 id="toggle-instructions">Instructions <i class="fas fa-caret-down"></i></h2>
-      <div class="instructions">Ear Training is the ability to understand how one pitch or note is relative to another. One basic way to do this is to compare 2 pitches, and discern which pitch has a higher frequency than the other, or if they are in fact the same pitch frequency.  Make sure your sound is on and have fun!</div>
-    </div>
-  </div>
-
-
   <body>
+      <div class="splash-screen">
+          <h1>Ear Trainer</h1>
+          <div class=user>
+              <input type="text" id="username" placeholder="Enter username">
+              <div class="buttons">
+                <button id="submitUser">Login</button>
+                <button id="deleteUser">Delete User</button>
+                <button id="deleteAll">Delete All Users</button>
+              </div>
+            </div>
+            <p id="copyright">©Michael Scanza 2019</p>
+        </div>
+        <div class="container">
+          <div>
+            <button id="logout">Logout</button>
+          </div>
+
+          <div class="score-container">
+            <h2 id="score">Score: N / A</h2>
+          </div>
+
+          <div class="welcome"></div>
+          <div class="instructions-container">
+            <h2 id="toggle-instructions">Instructions <i class="fas fa-caret-down"></i></h2>
+            <div class="instructions">Ear Training is the ability to understand how one pitch or note relates to another. One basic way to do this is to compare 2 pitches, and discern which pitch has a higher frequency than the other, or if they are in fact the same pitch frequency.<br><br>
+              Listen to both pitches and determine which is higher. Make sure your sound is on and have fun!</div>
+          </div>
+          <small>Listen to both pitches and choose one answer below.</small>
+          <div class="test">
+            <form>
+              <div class="pitches">
+                  <p>Pitch 1: <i class="fas fa-play"></i></p>
+                  <p>Pitch 2: <i class="fas fa-play"></i></p>
+              </div>
+
+              <div class="radio-container">
+                  <div>
+                      <input type="radio" value="pitch1" required>
+                      <label for="pitch1">Pitch 1 is higher</label>
+                    </div>
+                    <div>
+                        <input type="radio" value="pitch2" required>
+                        <label for="pitch2">Pitch 2 is higher</label>
+                    </div>
+                    <div>
+                      <input type="radio" value="same" required>
+                      <label for="same">Pitches are the same</label>
+                    </div>
+              </div>
+            </form>
+          </div>
+        </div>
 
 
     <script
