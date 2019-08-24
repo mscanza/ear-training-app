@@ -81,6 +81,11 @@ body {
   color: purple;
 }
 
+.game-type-buttons {
+  display: flex;
+  justify-content: center;
+}
+
 .button {
   border: 2px solid dodgerblue;
   border-radius: 5px;
@@ -90,6 +95,12 @@ body {
   font-size: 18px;
 }
 .button:hover {
+  background-color: dodgerblue !important;
+  color: white !important;
+  cursor: pointer !important;
+}
+
+#highNote-button {
   background-color: dodgerblue;
   color: white;
 }

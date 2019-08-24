@@ -11,6 +11,16 @@ $(document).ready(function() {
     ['f5', "./resources/audio-files/f5.wav"],
     ['g5', "./resources/audio-files/g5.wav"]
   ]
+
+  $('#highNote-button').click(function() {
+    $(this).css({'background-color': 'dodgerblue', 'color': 'white'})
+    $('#intervals-button').css({'background-color': 'white', 'color': 'black'})
+  })
+
+  $('#intervals-button').click(function() {
+    $(this).css({'background-color': 'dodgerblue', 'color': 'white'})
+    $('#highNote-button').css({'background-color': 'white', 'color': 'black'})
+  })
   let pitch1;
   let pitch2;
 
@@ -18,6 +28,8 @@ $(document).ready(function() {
   let pitch2Audio;
 
   initialize()
+
+
 
   //click handlers
   $('#playPitch1').click(function() {
