@@ -102,8 +102,8 @@ $(document).ready(function() {
 
   $('#logout').click(function() {
     $('.splash-screen').css('display', 'flex');
+    updateDate()
     $('#username').val('');
-
     initialize();
   })
 
@@ -123,6 +123,13 @@ $(document).ready(function() {
     updateStats(user)
     return;
   }
+
+//update date
+function updateDate() {
+  let userData = JSON.parse(localStorage.getItem($('#username').val()));
+  userData.lastLogin = Date.now();
+  localStorage.setItem($('#username').val(), JSON.stringify(userData));
+}
 
   //update user stats
   function updateStats(user) {
