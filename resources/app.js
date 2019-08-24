@@ -67,7 +67,6 @@ $(document).ready(function() {
 
   $('#question').submit(function(e) {
     let userData = JSON.parse(localStorage.getItem($('#username').val()))
-    console.log(userData)
     e.preventDefault();
     let guess = $('input[name=pitch]:checked', '#question').val()
     if (checkAnswer(guess) === true) {
