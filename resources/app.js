@@ -32,6 +32,13 @@ $(document).ready(function() {
     $('.instructions').slideToggle('fast')
   })
 
+  $('#stats-toggle').click(function() {
+
+    $('#userStats').slideToggle('fast');
+  })
+
+
+
 
   $('#submitUser').click(function() {
     if ($('#username').val() === '') {
@@ -59,26 +66,45 @@ $(document).ready(function() {
   });
 
   $('#question').submit(function(e) {
-    let parsedScore = JSON.parse(localStorage.getItem($('#username').val())).score
+    let userData = JSON.parse(localStorage.getItem($('#username').val()))
+    console.log(userData)
     e.preventDefault();
     let guess = $('input[name=pitch]:checked', '#question').val()
     if (checkAnswer(guess) === true) {
       alert('Congratulations! That is correct.')
-      parsedScore[0]++;
+
+
+      userData.score[0]++;
+      userData.currentStreak++;
+      if (userData.currentStreak > userData.longestStreak) {
+        userData.longestStreak = userData.currentStreak;
+      }
 
     } else {
       alert('Sorry. That is incorrect.')
+      userData.currentStreak = 0;
     }
-    parsedScore[1]++
-    localStorage.setItem($('#username').val(), JSON.stringify({ score: parsedScore }))
-    updateScore($('#username').val())
+    userData.score[1]++;
+    localStorage.setItem($('#username').val(), JSON.stringify(userData));
+    updateScore($('#username').val());
+    updateStats($('#username').val());
     initialize();
+    return;
+  })
+
+  $('#reset-stats').click(function(){
+    if (!confirm('Are you sure you want to reset all stats?')) {
+      return;
+    }
+    localStorage.setItem($('#username').val(), JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner' }))
+    updateStats($('#username').val());
     return;
   })
 
   $('#logout').click(function() {
     $('.splash-screen').css('display', 'flex');
     $('#username').val('');
+
     initialize();
   })
 
@@ -86,7 +112,8 @@ $(document).ready(function() {
 
   function get(user) {
     if (!localStorage.getItem(user)) {
-      localStorage.setItem(user, JSON.stringify({ score: [0, 0] }))
+      let date = Date.parse(Date.now())
+      localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner' }))
       $('.welcome').html(`Welcome, ${user}!`)
     } else {
       localStorage.getItem(user)
@@ -94,8 +121,21 @@ $(document).ready(function() {
     }
     $('.splash-screen').css('display', 'none');
     updateScore(user)
+    updateStats(user)
     return;
   }
+
+  //update user stats
+  function updateStats(user) {
+    let userData = JSON.parse(localStorage.getItem(user))
+    $('#name').text(user)
+    $('#login').text(new Date(userData.lastLogin).toDateString())
+    $('#current-streak').text(userData.currentStreak)
+    $('#longest-streak').text(userData.longestStreak)
+    $('#level').text(userData.level)
+    $('#stats-score').text(`${userData.score[0]} / ${userData.score[1]}`)
+  }
+
 
   function remove(user) {
     localStorage.removeItem(user);

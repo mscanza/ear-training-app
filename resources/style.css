@@ -102,7 +102,9 @@ body {
   color: dodgerblue;
 }
 
+.stats {
 
+}
 form {
   background-color: white;
   display: flex;
@@ -154,6 +156,28 @@ small {
 #copyright {
   position: absolute;
   bottom: 10px;
+}
+
+.stats {
+  text-align: center;
+}
+#stats-toggle:hover {
+  cursor: pointer;
+  color: purple;
+}
+
+#userStats {
+  display: none;
+  padding: 5px;
+  background-color: white;
+  border: 1px solid dodgerblue;
+  width: 500px;
+  text-align: left;
+  margin: 10px auto 0px auto;
+}
+
+#userStats p {
+  margin: 2px;
 }
 
 #logout {
