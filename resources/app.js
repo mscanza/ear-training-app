@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-
+var game = 'high-note'
   //sound database
   const sounds = [
     ['a4', "./resources/audio-files/a4.wav"],
@@ -13,11 +13,15 @@ $(document).ready(function() {
   ]
 
   $('#highNote-button').click(function() {
+    game = 'high-note';
+    switchGame(game)
     $(this).css({'background-color': 'dodgerblue', 'color': 'white'})
     $('#intervals-button').css({'background-color': 'white', 'color': 'black'})
   })
 
   $('#intervals-button').click(function() {
+    game = 'intervals'
+    switchGame(game)
     $(this).css({'background-color': 'dodgerblue', 'color': 'white'})
     $('#highNote-button').css({'background-color': 'white', 'color': 'black'})
   })
@@ -29,6 +33,20 @@ $(document).ready(function() {
 
   initialize()
 
+  function switchGame(game) {
+    if (game === 'intervals') {
+      $('.instructions').html('Ear Training is the ability to understand how one pitch or note relates to another, and how multiple pitches combine to form chords. With some practice, you will be able to recognize how these notes and chords relate to eachother in all music you listen to! <h2>Intervals</h2> Intervals takes High Note a step further.  Interval training involves determining the distance from one note to another. <a target="_blank" href="https://en.wikipedia.org/wiki/Interval_(music)#targetText=In%20music%20theory%2C%20an%20interval,such%20as%20in%20a%20chord.">Click here for a detailed description</a>.<br><br> Listen to both pitches and choose the correct interval. Make sure your sound is on low and have fun!')
+
+      $('#final-instructions').html('Adjust volume to low. Listen to both pitches. Select the correct interval.')
+
+
+    }
+    if (game === 'high-note') {
+      $('.instructions').html('Ear Training is the ability to understand how one pitch or note relates to another, and how multiple pitches combine to form chords. With some practice, you will be able to recognize how these notes and chords relate to eachother in all music you listen to! <h2>High Note</h2> One basic way to do this is to compare 2 pitches, and discern which pitch has a higher frequency than the other, or if they are in fact the same pitch. (Also called "unison")<br><br>Listen to both pitches and determine which is higher. Make sure your sound is on low and have fun!')
+
+      $('#final-instructions').html('Adjust volume to low. Listen to both pitches. Which pitch is higher?')
+    }
+  }
 
 
   //click handlers

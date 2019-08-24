@@ -6,7 +6,7 @@ html, body {
 body {
   font-family: 'Roboto', sans-serif;
   height: 100vh;
-
+  -webkit-font-smoothing-: antialiased;
 }
 
 .container {
