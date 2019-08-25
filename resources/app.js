@@ -17,6 +17,7 @@ var game = 'high-note'
     switchGame(game)
     $(this).css({'background-color': 'dodgerblue', 'color': 'white'})
     $('#intervals-button').css({'background-color': 'white', 'color': 'black'})
+    $('#submitAnswer').css('margin-top', '130px')
   })
 
   $('#intervals-button').click(function() {
@@ -24,6 +25,7 @@ var game = 'high-note'
     switchGame(game)
     $(this).css({'background-color': 'dodgerblue', 'color': 'white'})
     $('#highNote-button').css({'background-color': 'white', 'color': 'black'})
+    $('#submitAnswer').css('margin-top', '176px')
   })
   let pitch1;
   let pitch2;
@@ -40,6 +42,8 @@ var game = 'high-note'
       $('#final-instructions').html('Adjust volume to low. Listen to both pitches. Select the correct interval.')
 
       $('.radio-container').html('<div><input type="radio" name="pitch" value="1st" required><label for="1st">Unison (same pitch)</label></div><div><input type="radio" name="pitch" value="2nd" required><label for="2nd">2nd</label></div><div><input type="radio" name="pitch" value="3rd" required><label for="3rd">3rd</label></div><div><input type="radio" name="pitch" value="4th" required><label for="4th">4th</label></div><div><input type="radio" name="pitch" value="5th" required><label for="5th">5th</label></div><div><input type="radio" name="pitch" value="6th" required><label for="6th">6th</label></div><div><input type="radio" name="pitch" value="7th" required><label for="7th">7th</label></div>')
+
+
 
 return;
     }
