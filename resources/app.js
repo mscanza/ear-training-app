@@ -177,6 +177,7 @@ function updateDate() {
     $('#current-streak').text(userData.currentStreak)
     $('#longest-streak').text(userData.longestStreak)
     $('#level').text(userData.level)
+    $('#accuracy').text(Math.floor(Number(userData.score[0]) / Number(userData.score[1]) * 100) + "%")
     $('#stats-score').text(`${userData.score[0]} / ${userData.score[1]}`)
   }
 
