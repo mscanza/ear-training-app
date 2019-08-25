@@ -197,8 +197,8 @@ small {
 
 #logout {
   position: absolute;
-  left: 15px;
-  top: 15px;
+  left: 10px;
+  top: 10px;
 }
 
 @media (max-width: 500px) {
@@ -215,5 +215,17 @@ small {
     margin-top: 130px;
     margin-left: 160px;
     position: absolute;
+  }
+  .container {
+    padding: 10px 0 0 0;
+  }
+  #score {
+    font-size: 16px;
+
+  }
+
+  #logout {
+    left: 2px;
+    top: 5px;
   }
 }
