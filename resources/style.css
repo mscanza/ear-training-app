@@ -200,3 +200,15 @@ small {
   left: 15px;
   top: 15px;
 }
+
+@media (max-width: 500px) {
+  #userStats {
+    width: 400px;
+  }
+  form {
+    width: 400px;
+  }
+  .instructions {
+    width: 400px;
+  }
+}
