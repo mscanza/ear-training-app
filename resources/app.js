@@ -39,12 +39,16 @@ var game = 'high-note'
 
       $('#final-instructions').html('Adjust volume to low. Listen to both pitches. Select the correct interval.')
 
+      $('.radio-container').html('<div><input type="radio" name="pitch" value="1st" required><label for="1st">Unison (same pitch)</label></div><div><input type="radio" name="pitch" value="2nd" required><label for="2nd">2nd</label></div><div><input type="radio" name="pitch" value="3rd" required><label for="3rd">3rd</label></div><div><input type="radio" name="pitch" value="4th" required><label for="4th">4th</label></div><div><input type="radio" name="pitch" value="5th" required><label for="5th">5th</label></div><div><input type="radio" name="pitch" value="6th" required><label for="6th">6th</label></div><div><input type="radio" name="pitch" value="7th" required><label for="7th">7th</label></div>')
 
+return;
     }
     if (game === 'high-note') {
       $('.instructions').html('Ear Training is the ability to understand how one pitch or note relates to another, and how multiple pitches combine to form chords. With some practice, you will be able to recognize how these notes and chords relate to eachother in all music you listen to! <h2>High Note</h2> One basic way to do this is to compare 2 pitches, and discern which pitch has a higher frequency than the other, or if they are in fact the same pitch. (Also called "unison")<br><br>Listen to both pitches and determine which is higher. Make sure your sound is on low and have fun!')
 
       $('#final-instructions').html('Adjust volume to low. Listen to both pitches. Which pitch is higher?')
+
+      $('.radio-container').html('<div><input type="radio" name="pitch"value="pitch1" required><label for="pitch1">Pitch 1</label></div><div><input type="radio" name="pitch"value="pitch2" required><label for="pitch2">Pitch 2</label></div><div><input type="radio" name="pitch"value="same" required><label for="same">Pitches are the same.</label></div>')
     }
   }
 
@@ -69,7 +73,7 @@ var game = 'high-note'
 
 
 
-
+//login click handlers
   $('#submitUser').click(function() {
     if ($('#username').val() === '') {
       alert('Please enter a username')
@@ -95,10 +99,14 @@ var game = 'high-note'
     return;
   });
 
+
+
+//answer question
   $('#question').submit(function(e) {
     let userData = JSON.parse(localStorage.getItem($('#username').val()))
     e.preventDefault();
     let guess = $('input[name=pitch]:checked', '#question').val()
+    console.log(guess)
     if (checkAnswer(guess) === true) {
       alert('Congratulations! That is correct.')
 
@@ -193,17 +201,47 @@ function updateDate() {
     }
   }
 
+function checkInterval(guess) {
+
+}
+
   function checkAnswer(guess) {
-    if (guess === 'pitch1') {
-      return sounds.indexOf(pitch1) > sounds.indexOf(pitch2);
+    if (game === 'high-note') {
+      if (guess === 'pitch1') {
+        return sounds.indexOf(pitch1) > sounds.indexOf(pitch2);
+      }
+      if (guess === 'pitch2') {
+        return sounds.indexOf(pitch2) > sounds.indexOf(pitch1);
+      }
+      if (guess === 'same') {
+        return sounds.indexOf(pitch1) === sounds.indexOf(pitch2);
+      }
     }
-    if (guess === 'pitch2') {
-      return sounds.indexOf(pitch2) > sounds.indexOf(pitch1);
+    if (game === 'intervals') {
+      if (guess === '1st') {
+        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 0;
+      }
+      if (guess === '2nd') {
+        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 1;
+      }
+      if (guess === '3rd') {
+        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 2;
+      }
+      if (guess === '4th') {
+        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 3;
+      }
+      if (guess === '5th') {
+        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 4;
+      }
+      if (guess === '6th') {
+        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 5;
+      }
+      if (guess === '7th') {
+        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 6;
+      }
     }
-    if (guess === 'same') {
-      return sounds.indexOf(pitch1) === sounds.indexOf(pitch2);
     }
-  }
+
 
   function initialize() {
     document.getElementById('question').reset()
