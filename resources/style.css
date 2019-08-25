@@ -201,7 +201,7 @@ small {
   top: 15px;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 480px) {
   .score-container {
     width: 100%;
   }
