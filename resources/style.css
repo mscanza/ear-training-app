@@ -211,4 +211,9 @@ small {
   .instructions {
     width: 400px;
   }
+  #submitAnswer {
+    margin-top: 130px;
+    margin-left: 160px;
+    position: absolute;
+  }
 }
