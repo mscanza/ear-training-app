@@ -23,7 +23,7 @@ var game = 'high-note'
     switchGame(game)
     $(this).css({'background-color': 'dodgerblue', 'color': 'white'})
     $('#intervals-button').css({'background-color': 'white', 'color': 'black'})
-    $('#submitAnswer').css('margin-top', '130px')
+
   })
 
   $('#intervals-button').click(function() {
@@ -31,7 +31,7 @@ var game = 'high-note'
     switchGame(game)
     $(this).css({'background-color': 'dodgerblue', 'color': 'white'})
     $('#highNote-button').css({'background-color': 'white', 'color': 'black'})
-    $('#submitAnswer').css('margin-top', '176px')
+
   })
   let pitch1;
   let pitch2;
