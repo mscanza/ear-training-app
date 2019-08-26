@@ -4,12 +4,18 @@ var game = 'high-note'
   //sound database
   const sounds = [
     ['a4', "./resources/audio-files/a4.wav"],
+    ['asharp4', "./resources/audio-files/asharp4.wav"],
     ['b4', "./resources/audio-files/b4.wav"],
     ['c5', "./resources/audio-files/c5.wav"],
+    ['csharp5', "./resources/audio-files/csharp5.wav"],
     ['d5', "./resources/audio-files/d5.wav"],
+    ['dsharp5', "./resources/audio-files/dsharp5.wav"],
     ['e5', "./resources/audio-files/e5.wav"],
     ['f5', "./resources/audio-files/f5.wav"],
-    ['g5', "./resources/audio-files/g5.wav"]
+    ['fsharp5', "./resources/audio-files/fsharp5.wav"],
+    ['g5', "./resources/audio-files/g5.wav"],
+    ['gsharp5', "./resources/audio-files/gsharp5.wav"],
+    ['a5', "./resources/audio-files/a5.wav"]
   ]
 
   $('#highNote-button').click(function() {
@@ -41,7 +47,7 @@ var game = 'high-note'
 
       $('#final-instructions').html('Adjust volume to low. Listen to both pitches. Select the correct interval.')
 
-      $('.radio-container').html('<div><input type="radio" name="pitch" value="1st" required><label for="1st">Unison (same pitch)</label></div><div><input type="radio" name="pitch" value="2nd" required><label for="2nd">2nd</label></div><div><input type="radio" name="pitch" value="3rd" required><label for="3rd">3rd</label></div><div><input type="radio" name="pitch" value="4th" required><label for="4th">4th</label></div><div><input type="radio" name="pitch" value="5th" required><label for="5th">5th</label></div><div><input type="radio" name="pitch" value="6th" required><label for="6th">6th</label></div><div><input type="radio" name="pitch" value="7th" required><label for="7th">7th</label></div>')
+      $('.radio-container').html('<div><input type="radio" name="pitch" value="1st" required><label for="1st">Unison (same pitch)</label></div><div><input type="radio" name="pitch" value="2nd" required><label for="2nd">2nd</label></div><div><input type="radio" name="pitch" value="3rd" required><label for="3rd">3rd</label></div><div><input type="radio" name="pitch" value="4th" required><label for="4th">4th</label></div><div><input type="radio" name="pitch" value="5th" required><label for="5th">5th</label></div><div><input type="radio" name="pitch" value="6th" required><label for="6th">6th</label></div><div><input type="radio" name="pitch" value="7th" required><label for="7th">7th</label></div><div><input type="radio" name="pitch" value="8th" required><label for="8th">Octave (8th)</label></div>')
 
 
 
@@ -110,7 +116,6 @@ return;
     let userData = JSON.parse(localStorage.getItem($('#username').val()))
     e.preventDefault();
     let guess = $('input[name=pitch]:checked', '#question').val()
-    console.log(guess)
     if (checkAnswer(guess) === true) {
       alert('Congratulations! That is correct.')
 
@@ -223,26 +228,30 @@ function checkInterval(guess) {
       }
     }
     if (game === 'intervals') {
+      let interval = Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2));
       if (guess === '1st') {
-        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 0;
+        return interval === 0;
       }
       if (guess === '2nd') {
-        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 1;
+        return interval === 1 || interval === 2;
       }
       if (guess === '3rd') {
-        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 2;
+        return interval === 3 || interval === 4;
       }
       if (guess === '4th') {
-        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 3;
+        return interval === 5;
       }
       if (guess === '5th') {
-        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 4;
+        return interval === 6 || interval === 7;;
       }
       if (guess === '6th') {
-        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 5;
+        return interval === 8 || interval === 9;
       }
       if (guess === '7th') {
-        return Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2)) === 6;
+        return interval === 10 || interval === 11;
+      }
+      if (guess === '8th') {
+        return interval === 12;
       }
     }
     }
@@ -253,7 +262,8 @@ function checkInterval(guess) {
     pitch1 = sounds[Math.floor(Math.random() * sounds.length)];
     pitch2 = sounds[Math.floor(Math.random() * sounds.length)];
 
-    pitch1Audio = document.createElement('audio'); pitch1Audio.setAttribute('src', pitch1[1]);
+    pitch1Audio = document.createElement('audio');
+    pitch1Audio.setAttribute('src', pitch1[1]);
     pitch2Audio = document.createElement('audio')
     pitch2Audio.setAttribute('src', pitch2[1]);
   }
