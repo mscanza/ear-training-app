@@ -18,6 +18,11 @@ var game = 'high-note'
     ['a5', "./resources/audio-files/a5.wav"]
   ]
 
+const highNoteArray = ['pitch1', 'pitch2', 'same']
+const intervalsArray = ['1st','2nd','3rd','4th','5th','6th','7th','8th']
+
+let indexOfCorrect;
+
   $('#highNote-button').click(function() {
     game = 'high-note';
     switchGame(game)
@@ -35,6 +40,9 @@ var game = 'high-note'
   })
   let pitch1;
   let pitch2;
+
+  let pitch1Index;
+  let pitch2Index;
 
   let pitch1Audio;
   let pitch2Audio;
@@ -115,13 +123,17 @@ return;
   $('#question').submit(function(e) {
     let userData = JSON.parse(localStorage.getItem($('#username').val()))
     e.preventDefault();
-    let guess = $('input[name=pitch]:checked', '#question').val()
-    if (checkAnswer(guess) === true) {
-      $('.radio-container input:radio').change(function() {
+    let guess = $('input[name=pitch]:checked', '#question')
+    let correctAnswer = getCorrectAnswer();
+    let guessLabel = $('input[name=pitch]:checked', '#question').parent();
+    let correctLabel = $('#' + correctAnswer).parent()
 
-      })
-      alert('Congratulations! That is correct.')
-
+    if (guess.val() === correctAnswer) {
+      guessLabel.css('background-color','palegreen')
+      setTimeout(function(){
+        alert('Congratulations! That is correct.')
+        guessLabel.css('background','none')
+      },0)
 
       userData.score[0]++;
       userData.currentStreak++;
@@ -130,7 +142,14 @@ return;
       }
 
     } else {
-      alert('Sorry. That is incorrect.')
+      correctLabel.css('background-color', 'palegreen')
+      guessLabel.css('background-color', '#ff9999')
+      setTimeout(function() {
+        alert('Sorry. That is incorrect. The correct answer is: ' + correctLabel.text())
+        guessLabel.css('background','none');
+        correctLabel.css('background', 'none');
+      },0)
+
       userData.currentStreak = 0;
     }
     userData.score[1]++;
@@ -215,24 +234,20 @@ function updateDate() {
     }
   }
 
-function checkInterval(guess) {
-
-}
-
   function checkAnswer(guess) {
     if (game === 'high-note') {
       if (guess === 'pitch1') {
-        return sounds.indexOf(pitch1) > sounds.indexOf(pitch2);
+        return pitch1Index > pitch2Index;
       }
       if (guess === 'pitch2') {
-        return sounds.indexOf(pitch2) > sounds.indexOf(pitch1);
+        return pitch2Index > pitch1Index;
       }
       if (guess === 'same') {
-        return sounds.indexOf(pitch1) === sounds.indexOf(pitch2);
+        return pitch1Index === pitch2Index;
       }
     }
     if (game === 'intervals') {
-      let interval = Math.abs(sounds.indexOf(pitch1) - sounds.indexOf(pitch2));
+      let interval = Math.abs(pitch1Index - pitch2Index);
       if (guess === '1st') {
         return interval === 0;
       }
@@ -260,11 +275,31 @@ function checkInterval(guess) {
     }
     }
 
+    function getCorrectAnswer() {
+      if (game === 'high-note') {
+        for (let i = 0; i < highNoteArray.length; i++) {
+          if (checkAnswer(highNoteArray[i])) {
+            return highNoteArray[i];
+          }
+        }
+      }
+      if (game === 'intervals') {
+        for (let i = 0; i < intervalsArray.length; i++) {
+          if (checkAnswer(intervalsArray[i])) {
+            return intervalsArray[i];
+          }
+        }
+      }
+    }
+
 
   function initialize() {
     document.getElementById('question').reset()
     pitch1 = sounds[Math.floor(Math.random() * sounds.length)];
     pitch2 = sounds[Math.floor(Math.random() * sounds.length)];
+
+     pitch1Index = sounds.indexOf(pitch1);
+     pitch2Index = sounds.indexOf(pitch2);
 
     pitch1Audio = document.createElement('audio');
     pitch1Audio.setAttribute('src', pitch1[1]);
