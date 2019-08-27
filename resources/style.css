@@ -86,6 +86,23 @@ body {
   justify-content: center;
 }
 
+.radio-container {
+  text-align: left;
+  width: 100%;
+  padding: 5px;
+}
+
+.radio-container label {
+  display: block;
+  border: 1px solid lightgrey;
+  padding: 10px 0px 10px 20px;
+  border-radius: 3px;
+  margin: 2px 0px;
+}
+
+.radio-container label:hover {
+  background-color: rgba(0,0,0,.05);
+}
 
 .button-spacer {
   margin: 0 10px;
@@ -142,10 +159,7 @@ input[type='radio'] {
   margin: 5px 0;
 }
 
-.radio-container {
-  text-align: left;
-  margin: 1em;
-}
+
 
 .test {
 display: inline-block;
@@ -173,6 +187,10 @@ small {
   bottom: 10px;
 }
 
+.selected-radio {
+  background-color: lightgrey;
+}
+
 .stats {
   text-align: center;
 }
@@ -191,6 +209,10 @@ small {
   text-align: left;
   margin: 15px auto 0px auto;
   box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+}
+
+.fa-question-circle {
+  color: dodgerblue;
 }
 
 #userStats p {

@@ -2,100 +2,100 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <link rel="stylesheet" href="./resources/style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/15c0eaad51.js"></script>
   </head>
   <body>
-    <div class="site-container">
-        <div class="splash-screen">
-            <h1>Ear Trainer</h1>
-            <div class=user>
-                <input type="text" id="username" placeholder="Enter username">
-                <div class="buttons">
-                  <button class="button" id="submitUser">Login</button>
-                  <button class="button" id="deleteUser">Delete User</button>
-                  <button class="button" id="deleteAll">Delete All Users</button>
-                </div>
+      <div class="splash-screen">
+          <h1>Ear Trainer</h1>
+          <div class=user>
+              <input type="text" id="username" placeholder="Enter username">
+              <div class="buttons">
+                <button class="button" id="submitUser">Login</button>
+                <button class="button" id="deleteUser">Delete User</button>
+                <button class="button" id="deleteAll">Delete All Users</button>
               </div>
-              <p id="copyright">©Michael Scanza 2019</p>
+            </div>
+            <p id="copyright">©Michael Scanza 2019</p>
+        </div>
+        <div class="container">
+          <div>
+            <button class="button" id="logout">Logout</button>
           </div>
-          <div class="container">
+
+          <div class="score-container">
+            <h2 id="score">Score: N / A</h2>
+          </div>
+
+          <div class="welcome"></div>
+          <div class="stats">
             <div>
-              <button class="button" id="logout">Logout</button>
+              <small id="stats-toggle">show user stats <i class="fas fa-xs fa-caret-down"></i></small>
             </div>
-
-            <div class="score-container">
-              <h2 id="score">Score: N / A</h2>
-            </div>
-
-            <div class="welcome"></div>
-            <div class="stats">
-              <div>
-                <small id="stats-toggle">show user stats <i class="fas fa-xs fa-caret-down"></i></small>
-              </div>
-              <div id="userStats">
-               <p>User: <span id="name">Michael</span></p>
-               <p>Last login: <span id="login">date</span></p>
-               <p>Current streak: <span id="current-streak">24</span></p>
-               <p>Longest streak: <span id="longest-streak">24</span></p>
-               <p>Level: <span id="level">Intermediate</span></p>
-               <p>Accuracy: <span id="accuracy"></span></p>
-               <p>Score: <span id="stats-score">4/4</span></p>
-               <button id="reset-stats">Reset user stats</button>
-              </div>
-            </div>
-            <div class="game-type">
-              <h1>Select your training:</h1>
-              <div class="game-type-buttons">
-                  <div class="button-spacer">
-                      <button id="highNote-button" class="button">High Note</button>
-                      <small>Beginner Recommended</small>
-                    </div>
-                    <div class="button-spacer">
-                      <button id="intervals-button" class="button">Intervals</button>
-
-                    </div>
-              </div>
-
-            </div>
-            <div class="instructions-container">
-              <h2 id="toggle-instructions">Instructions <i class="fas fa-caret-down"></i></h2>
-              <div class="instructions">Ear Training is the ability to understand how one pitch or note relates to another, and how multiple pitches combine to form chords. With some practice, you will be able to recognize how these notes and chords relate to eachother in all music you listen to!
-                <h2>High Note</h2>
-                One basic way to do this is to compare 2 pitches, and discern which pitch has a higher frequency than the other, or if they are in fact the same pitch. (Also called 'unison')<br><br>
-                Listen to both pitches and determine which is higher. Make sure your sound is on and have fun!
-              </div>
-            </div>
-            <small id="final-instructions">Adjust volume to low. Listen to both pitches. Which pitch is higher?</small>
-            <div class="test">
-              <form id="question">
-                <div class="pitches">
-                    <p id="playPitch1">Pitch 1: <i class="fas fa-play"></i></p>
-                    <p id="playPitch2">Pitch 2: <i class="fas fa-play"></i></p>
-                </div>
-
-                <div class="radio-container">
-                    <div>
-                        <input type="radio" name="pitch" value="pitch1" required>
-                        <label for="pitch1">Pitch 1</label>
-                      </div>
-                      <div>
-                          <input type="radio" name="pitch" value="pitch2" required>
-                          <label for="pitch2">Pitch 2</label>
-                      </div>
-                      <div>
-                        <input type="radio" name="pitch" value="same" required>
-                        <label for="same">Pitches are the same.</label>
-                      </div>
-                </div>
-                <input class="button" id="submitAnswer" type="submit" name="">
-              </form>
+            <div id="userStats">
+             <p>User: <span id="name">Michael</span></p>
+             <p>Last login: <span id="login">date</span></p>
+             <p>Current streak: <span id="current-streak">24</span></p>
+             <p>Longest streak: <span id="longest-streak">24</span></p>
+             <p>Level: <span id="level">Intermediate</span></p>
+             <p>Accuracy: <span id="accuracy"></span></p>
+             <p>Score: <span id="stats-score">4/4</span></p>
+             <button id="reset-stats">Reset user stats</button>
             </div>
           </div>
-    </div>
+          <div class="game-type">
+            <h1>Select your training:</h1>
+            <div class="game-type-buttons">
+                <div class="button-spacer">
+                    <button id="highNote-button" class="button">High Note</button>
+                    <small>Beginner Recommended</small>
+                  </div>
+                  <div class="button-spacer">
+                    <button id="intervals-button" class="button">Intervals</button>
+                  </div>
+            </div>
 
+          </div>
+          <div class="instructions-container">
+            <h2 id="toggle-instructions">Instructions <i class="fas fa-caret-down"></i></h2>
+            <div class="instructions">Ear Training is the ability to understand how one pitch or note relates to another, and how multiple pitches combine to form chords. With some practice, you will be able to recognize how these notes and chords relate to eachother in all music you listen to!
+              <h2>High Note</h2>
+              One basic way to do this is to compare 2 pitches, and discern which pitch has a higher frequency than the other, or if they are in fact the same pitch. (Also called 'unison')<br><br>
+              Listen to both pitches and determine which is higher. Make sure your sound is on and have fun!</div>
+          </div>
+          <small>Adjust audio to low. Listen to both pitches. Which pitch is higher?</small>
+          <div class="test">
+            <form id="question">
+              <div class="pitches">
+                  <p id="playPitch1">Pitch 1: <i class="fas fa-play"></i></p>
+                  <p id="playPitch2">Pitch 2: <i class="fas fa-play"></i></p>
+              </div>
+
+              <div class="radio-container">
+                  <div>
+
+                      <label for="pitch1">
+                          <input type="radio" id="pitch1" name="pitch" value="pitch1" required>
+                        Pitch 1</label>
+                    </div>
+                    <div>
+
+                        <label for="pitch2">
+                            <input type="radio" id="pitch2" name="pitch" value="pitch2" required>
+                          Pitch 2</label>
+                    </div>
+                    <div>
+
+                      <label for="same">
+                          <input type="radio" id="same" name="pitch" value="same" required>
+                        Pitches are the same.</label>
+                    </div>
+              </div>
+              <input class="button" id="submitAnswer" type="submit" name="">
+            </form>
+          </div>
+        </div>
 
 
     <script

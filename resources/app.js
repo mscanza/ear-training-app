@@ -47,7 +47,7 @@ var game = 'high-note'
 
       $('#final-instructions').html('Adjust volume to low. Listen to both pitches. Select the correct interval.')
 
-      $('.radio-container').html('<div><input type="radio" name="pitch" value="1st" required><label for="1st">Unison (same pitch)</label></div><div><input type="radio" name="pitch" value="2nd" required><label for="2nd">2nd</label></div><div><input type="radio" name="pitch" value="3rd" required><label for="3rd">3rd</label></div><div><input type="radio" name="pitch" value="4th" required><label for="4th">4th</label></div><div><input type="radio" name="pitch" value="5th" required><label for="5th">5th</label></div><div><input type="radio" name="pitch" value="6th" required><label for="6th">6th</label></div><div><input type="radio" name="pitch" value="7th" required><label for="7th">7th</label></div><div><input type="radio" name="pitch" value="8th" required><label for="8th">Octave (8th)</label></div>')
+      $('.radio-container').html('<div><label for="1st"><input type="radio" id="1st" name="pitch" value="1st" required> Unison (same pitch)</label></div><div><label for="2nd"><input type="radio" name="pitch" id="2nd" value="2nd" required> 2nd</label></div><div><label for="3rd"><input type="radio" name="pitch" id="3rd" value="3rd" required> 3rd</label></div><div><label for="4th"><input type="radio" name="pitch" id="4th" value="4th" required> 4th</label></div><div><label for="5th"><input type="radio" name="pitch" id="5th" value="5th" required> 5th</label></div><div><label for="6th"><input type="radio" name="pitch" id="6th" value="6th" required> 6th</label></div><div><label for="7th"><input type="radio" name="pitch" id="7th" value="7th" required> 7th</label></div><div><label for="8th"><input type="radio" name="pitch" id="8th" value="8th" required> Octave (8th)</label></div>')
 
 
 
@@ -58,7 +58,7 @@ return;
 
       $('#final-instructions').html('Adjust volume to low. Listen to both pitches. Which pitch is higher?')
 
-      $('.radio-container').html('<div><input type="radio" name="pitch"value="pitch1" required><label for="pitch1">Pitch 1</label></div><div><input type="radio" name="pitch"value="pitch2" required><label for="pitch2">Pitch 2</label></div><div><input type="radio" name="pitch"value="same" required><label for="same">Pitches are the same.</label></div>')
+      $('.radio-container').html('<div><label for="pitch1"><input type="radio" name="pitch" id="pitch1" value="pitch1" required> Pitch 1</label></div><div><label for="pitch2"><input type="radio" name="pitch" id="pitch2" value="pitch2" required> Pitch 2</label></div><div><label for="same"><input type="radio" name="pitch" id="same" value="same" required> Pitches are the same.</label></div>')
     }
   }
 
@@ -117,6 +117,9 @@ return;
     e.preventDefault();
     let guess = $('input[name=pitch]:checked', '#question').val()
     if (checkAnswer(guess) === true) {
+      $('.radio-container input:radio').change(function() {
+
+      })
       alert('Congratulations! That is correct.')
 
 
@@ -144,6 +147,7 @@ return;
     }
     localStorage.setItem($('#username').val(), JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner' }))
     updateStats($('#username').val());
+    updateScore()
     return;
   })
 
@@ -186,7 +190,7 @@ function updateDate() {
     $('#current-streak').text(userData.currentStreak)
     $('#longest-streak').text(userData.longestStreak)
     $('#level').text(userData.level)
-    $('#accuracy').text(Math.floor(Number(userData.score[0]) / Number(userData.score[1]) * 100) + "%")
+    $('#accuracy').text(Number(userData.score[1]) * 100 === 0 ? 'N / A' : Math.floor(Number(userData.score[0]) / Number(userData.score[1]) * 100) + "%")
     $('#stats-score').text(`${userData.score[0]} / ${userData.score[1]}`)
   }
 
