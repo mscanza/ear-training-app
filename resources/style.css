@@ -226,6 +226,22 @@ small {
   top: 10px;
 }
 
+/* chart styling */
+
+.chart-title {
+  text-align: center;
+}
+#analysis:hover {
+  cursor: pointer;
+  color: purple;
+}
+
+#chart1-container {
+  display: none;
+}
+
+
+
 @media (max-width: 500px) {
   #userStats {
     width: 400px;

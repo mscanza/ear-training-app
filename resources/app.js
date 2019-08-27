@@ -89,6 +89,11 @@ return;
     $('#userStats').slideToggle('fast');
   })
 
+  $('#analysis').click(function() {
+    updateChart();
+
+    $('#chart1-container').slideToggle('fast')
+  });
 
 
 //login click handlers
@@ -197,6 +202,22 @@ return;
     updateStats(user)
     return;
   }
+
+function updateChart() {
+  let userData = JSON.parse(localStorage.getItem($('#username').val()))
+
+  var chart = c3.generate({
+    bindto: '#chart1',
+    data: {
+        columns: [
+            ['correct', userData.score[0]],
+            ['Incorrect', userData.score[1]],
+        ],
+        type : 'pie',
+    }
+});
+}
+
 
 //update date
 function updateDate() {

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <link rel="stylesheet" href="./resources/style.css">
-    <link href="/path/to/c3.css" rel="stylesheet">
+    <link href="./resources/lib/c3/c3.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/15c0eaad51.js"></script>
   </head>
@@ -43,8 +43,18 @@
              <p>Level: <span id="level">Intermediate</span></p>
              <p>Accuracy: <span id="accuracy"></span></p>
              <p>Score: <span id="stats-score">4/4</span></p>
+             <div id="analysis-container">
+                <small id="analysis">detailed analysis <i class="fas fa-xs fa-caret-down"></i></small>
+
+                <div id="chart1-container">
+                  <small class="chart-title">Overall Accuracy</small>
+                    <div id="chart1"></div>
+                </div>
+
+              </div>
              <button id="reset-stats">Reset user stats</button>
             </div>
+
           </div>
           <div class="game-type">
             <h1>Select your training:</h1>
@@ -90,8 +100,8 @@
           </div>
         </div>
 
-        <script src="/path/to/d3.v5.min.js" charset="utf-8"></script>
-        <script src="/path/to/c3.min.js"></script>
+        <script src="./resources/lib/d3/d3.min.js" charset="utf-8"></script>
+        <script src="./resources/lib/c3/c3.min.js"></script>
     <script
     src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
