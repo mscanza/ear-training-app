@@ -21,7 +21,7 @@ var game = 'high-note'
 const highNoteArray = ['pitch1', 'pitch2', 'same']
 const intervalsArray = ['1st','2nd','3rd','4th','5th','6th','7th','8th']
 
-let indexOfCorrect;
+
 
   $('#highNote-button').click(function() {
     game = 'high-note';
@@ -137,6 +137,8 @@ return;
 
       userData.score[0]++;
       userData.currentStreak++;
+
+
       if (userData.currentStreak > userData.longestStreak) {
         userData.longestStreak = userData.currentStreak;
       }
@@ -150,9 +152,11 @@ return;
         correctLabel.css('background', 'none');
       },0)
 
+      userData.gameType[game][correctAnswer]++;
       userData.currentStreak = 0;
     }
     userData.score[1]++;
+    userData.gameType[game].total++;
     localStorage.setItem($('#username').val(), JSON.stringify(userData));
     updateScore($('#username').val());
     updateStats($('#username').val());
@@ -182,7 +186,7 @@ return;
   function get(user) {
     if (!localStorage.getItem(user)) {
       let date = Date.parse(Date.now())
-      localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner' }))
+      localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner', gameType: {'high-note': {'pitch1': 0, 'pitch2': 0, 'same': 0, 'total': 0}, 'intervals': {'1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0, '6th': 0, '7th': 0, '8th': 0, 'total': 0}} }))
       $('.welcome').html(`Welcome, ${user}!`)
     } else {
       localStorage.getItem(user)
