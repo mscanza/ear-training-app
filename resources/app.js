@@ -47,6 +47,10 @@ const intervalsArray = ['1st','2nd','3rd','4th','5th','6th','7th','8th']
   let pitch1Audio;
   let pitch2Audio;
 
+  let chart1;
+  let chart2;
+  let chart3;
+
   initialize()
 
   function switchGame(game) {
@@ -87,13 +91,15 @@ return;
   $('#stats-toggle').click(function() {
 
     $('#userStats').slideToggle('fast');
+
   })
 
-  $('#analysis').click(function() {
-    updateChart();
+  // $('#analysis').click(function() {
+  //   updateChart();
 
-    $('#chart1-container').slideToggle('fast')
-  });
+  //   $('#chart1-container').slideToggle('fast')
+  //   $('#chart2-container').slideToggle('fast')
+  // });
 
 
 //login click handlers
@@ -126,7 +132,8 @@ return;
 
 //answer question
   $('#question').submit(function(e) {
-    let userData = JSON.parse(localStorage.getItem($('#username').val()))
+    let user = $('#username').val();
+    let userData = JSON.parse(localStorage.getItem(user))
     e.preventDefault();
     let guess = $('input[name=pitch]:checked', '#question')
     let correctAnswer = getCorrectAnswer();
@@ -134,7 +141,7 @@ return;
     let correctLabel = $('#' + correctAnswer).parent()
 
     if (guess.val() === correctAnswer) {
-      guessLabel.css('background-color','palegreen')
+      guessLabel.css('background-color','#50c878')
       setTimeout(function(){
         alert('Congratulations! That is correct.')
         guessLabel.css('background','none')
@@ -149,7 +156,7 @@ return;
       }
 
     } else {
-      correctLabel.css('background-color', 'palegreen')
+      correctLabel.css('background-color', '#50c878')
       guessLabel.css('background-color', '#ff9999')
       setTimeout(function() {
         alert('Sorry. That is incorrect. The correct answer is: ' + correctLabel.text())
@@ -162,20 +169,21 @@ return;
     }
     userData.score[1]++;
     userData.gameType[game].total++;
-    localStorage.setItem($('#username').val(), JSON.stringify(userData));
-    updateScore($('#username').val());
-    updateStats($('#username').val());
+    localStorage.setItem(user, JSON.stringify(userData));
+    updateScore(user);
+    updateStats(user);
     initialize();
     return;
   })
 
   $('#reset-stats').click(function(){
+    let user = $('#username').val()
     if (!confirm('Are you sure you want to reset all stats?')) {
       return;
     }
-    localStorage.setItem($('#username').val(), JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner' }))
-    updateStats($('#username').val());
-    updateScore()
+    initialStats(user);
+    updateStats(user);
+    updateScore(user)
     return;
   })
 
@@ -183,6 +191,7 @@ return;
     $('.splash-screen').css('display', 'flex');
     updateDate()
     $('#username').val('');
+    unloadChart()
     initialize();
   })
 
@@ -190,8 +199,7 @@ return;
 
   function get(user) {
     if (!localStorage.getItem(user)) {
-      let date = Date.parse(Date.now())
-      localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner', gameType: {'high-note': {'pitch1': 0, 'pitch2': 0, 'same': 0, 'total': 0}, 'intervals': {'1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0, '6th': 0, '7th': 0, '8th': 0, 'total': 0}} }))
+      initialStats(user)
       $('.welcome').html(`Welcome, ${user}!`)
     } else {
       localStorage.getItem(user)
@@ -205,17 +213,111 @@ return;
 
 function updateChart() {
   let userData = JSON.parse(localStorage.getItem($('#username').val()))
-
-  var chart = c3.generate({
+  let highNoteData = 0;
+  let intervalsData = 0;
+  for (let key in userData.gameType['high-note']) {
+    if (key !== 'total') {
+      highNoteData += userData.gameType['high-note'][key];
+    }
+  }
+  for (let key in userData.gameType['intervals']) {
+    if (key !== 'total') {
+      intervalsData += userData.gameType['intervals'][key];
+    }
+  }
+if (!chart1) {
+  chart1 = c3.generate({
     bindto: '#chart1',
+    size: {
+      height: 240,
+      width: 240
+    },
     data: {
         columns: [
             ['correct', userData.score[0]],
-            ['Incorrect', userData.score[1]],
+            ['incorrect', userData.score[1] - userData.score[0]],
         ],
         type : 'pie',
+        colors: {
+          'correct': '#50c878',
+          'incorrect': '#ff9999'
+        }
     }
 });
+
+} else {
+  chart1.load({
+    columns: [
+      ['correct', userData.score[0]],
+      ['incorrect', userData.score[1] - userData.score[0]]
+    ]
+  })
+}
+if (!chart2) {
+  chart2 = c3.generate({
+    bindto: '#chart2',
+    size: {
+      height: 240,
+      width: 240
+    },
+    data: {
+        columns: [
+            ['correct', userData.gameType['high-note'].total - highNoteData],
+            ['incorrect', highNoteData]
+        ],
+        type : 'pie',
+        colors: {
+          'correct': '#50c878',
+          'incorrect': '#ff9999'
+        }
+    }
+});
+
+} else {
+  chart2.load({
+    columns: [
+      ['correct', userData.gameType['high-note'].total - highNoteData],
+      ['incorrect', highNoteData]
+    ]
+  })
+}
+if (!chart3) {
+  chart3 = c3.generate({
+    bindto: '#chart3',
+    size: {
+      height: 240,
+      width: 240
+    },
+    data: {
+        columns: [
+            ['correct', userData.gameType['intervals'].total - intervalsData],
+            ['incorrect', intervalsData]
+        ],
+        type : 'pie',
+        colors: {
+          'correct': '#50c878',
+          'incorrect': '#ff9999'
+        }
+    }
+});
+
+} else {
+  chart3.load({
+    columns: [
+      ['correct', userData.gameType['intervals'].total - intervalsData],
+      ['incorrect', intervalsData]
+    ]
+  })
+}
+}
+
+function unloadChart() {
+  chart1.unload({
+    ids: 'correct'
+});
+chart1.unload({
+  ids: 'incorrect'
+})
 }
 
 
@@ -228,6 +330,7 @@ function updateDate() {
 
   //update user stats
   function updateStats(user) {
+    let date = Date.parse(Date.now())
     let userData = JSON.parse(localStorage.getItem(user))
     $('#name').text(user)
     $('#login').text(new Date(userData.lastLogin).toDateString())
@@ -236,6 +339,7 @@ function updateDate() {
     $('#level').text(userData.level)
     $('#accuracy').text(Number(userData.score[1]) * 100 === 0 ? 'N / A' : Math.floor(Number(userData.score[0]) / Number(userData.score[1]) * 100) + "%")
     $('#stats-score').text(`${userData.score[0]} / ${userData.score[1]}`)
+    updateChart()
   }
 
 
@@ -252,6 +356,9 @@ function updateDate() {
     return;
   }
 
+  function initialStats(user) {
+    localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner', gameType: {'high-note': {'pitch1': 0, 'pitch2': 0, 'same': 0, 'total': 0}, 'intervals': {'1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0, '6th': 0, '7th': 0, '8th': 0, 'total': 0}} }))
+  }
   function updateScore(user) {
     let userData = JSON.parse(localStorage.getItem(user));
     if (userData) {
