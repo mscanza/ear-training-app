@@ -78,6 +78,8 @@ return;
   //click handlers
   $('#playPitch1').click(function() {
     pitch1Audio.play()
+
+
   })
 
   $('#playPitch2').click(function() {
