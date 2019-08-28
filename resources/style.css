@@ -231,7 +231,15 @@ small {
   top: 10px;
 }
 
+select {
+  margin: 2px;
+  text-align: left;
+}
+
 /* chart styling */
+#chart1-container {
+  text-align: center;
+}
 
 .chart-title {
   text-align: center;

@@ -46,17 +46,15 @@
              <div id="analysis-container">
 
                 <div id="chart1-container">
-                  <small class="chart-title">Overall Accuracy</small>
+
+                  <select id="stats-select">
+                    <option value="overall" selected>Overall</option>
+                    <option value="high-note">High Note</option>
+                    <option value="intervals">Intervals</option>
+                  </select>
+                  <small>Accuracy</small>
                     <div id="chart1"></div>
                 </div>
-                <div id="chart2-container">
-                    <small class="chart-title">High Note Accuracy</small>
-                      <div id="chart2"></div>
-                  </div>
-                  <div id="chart3-container">
-                      <small class="chart-title">Intervals Accuracy</small>
-                        <div id="chart3"></div>
-                    </div>
 
                 </div>
                 <button id="reset-stats">Reset user stats</button>

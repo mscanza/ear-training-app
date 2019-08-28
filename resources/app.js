@@ -20,6 +20,7 @@ var game = 'high-note'
 
 const highNoteArray = ['pitch1', 'pitch2', 'same']
 const intervalsArray = ['1st','2nd','3rd','4th','5th','6th','7th','8th']
+const chords = ['major', 'minor', 'diminished']
 
 
 
@@ -48,8 +49,6 @@ const intervalsArray = ['1st','2nd','3rd','4th','5th','6th','7th','8th']
   let pitch2Audio;
 
   let chart1;
-  let chart2;
-  let chart3;
 
   initialize()
 
@@ -213,7 +212,11 @@ return;
     return;
   }
 
+  $('#stats-select').change(updateChart)
+
 function updateChart() {
+  let selected = $('#stats-select').val();
+
   let userData = JSON.parse(localStorage.getItem($('#username').val()))
   let highNoteData = 0;
   let intervalsData = 0;
@@ -227,6 +230,8 @@ function updateChart() {
       intervalsData += userData.gameType['intervals'][key];
     }
   }
+
+
 if (!chart1) {
   chart1 = c3.generate({
     bindto: '#chart1',
@@ -246,65 +251,25 @@ if (!chart1) {
         }
     }
 });
+  return;
+}
 
-} else {
+if (selected === 'overall') {
   chart1.load({
     columns: [
       ['correct', userData.score[0]],
       ['incorrect', userData.score[1] - userData.score[0]]
     ]
   })
-}
-if (!chart2) {
-  chart2 = c3.generate({
-    bindto: '#chart2',
-    size: {
-      height: 240,
-      width: 240
-    },
-    data: {
-        columns: [
-            ['correct', userData.gameType['high-note'].total - highNoteData],
-            ['incorrect', highNoteData]
-        ],
-        type : 'pie',
-        colors: {
-          'correct': '#50c878',
-          'incorrect': '#ff9999'
-        }
-    }
-});
-
-} else {
-  chart2.load({
+} else if (selected === 'high-note') {
+  chart1.load({
     columns: [
       ['correct', userData.gameType['high-note'].total - highNoteData],
       ['incorrect', highNoteData]
     ]
   })
-}
-if (!chart3) {
-  chart3 = c3.generate({
-    bindto: '#chart3',
-    size: {
-      height: 240,
-      width: 240
-    },
-    data: {
-        columns: [
-            ['correct', userData.gameType['intervals'].total - intervalsData],
-            ['incorrect', intervalsData]
-        ],
-        type : 'pie',
-        colors: {
-          'correct': '#50c878',
-          'incorrect': '#ff9999'
-        }
-    }
-});
-
-} else {
-  chart3.load({
+} else if (selected === 'intervals') {
+  chart1.load({
     columns: [
       ['correct', userData.gameType['intervals'].total - intervalsData],
       ['incorrect', intervalsData]
