@@ -111,9 +111,11 @@ let chord;
       $('.chords').css('display', 'block')
       $('.pitches').css('display', 'none')
 
-      $('#final-instructions').html('Adjust volume to low. Listen to the chord. What is the chord sonority?')
+      $('.instructions').html('Ear Training is the ability to understand how one pitch or note relates to another, and how multiple pitches combine to form chords. With some practice, you will be able to recognize how these notes and chords relate to eachother in all music you listen to! <h2>Chord Type</h2>  These are some of the most common chords you will hear in music.<div class="chords-description"><p>M: Major (No 7th)</p><p>m: Minor (No 7th)</p><p>MM7: Major with Major 7th</p><p>Mm7: Major with Minor 7th (Very common. Also known as Dominant 7th)</p><p>mM7: Minor with Major 7 (A striking and dissonant chord)</p><p>mm7: Minor with Minor 7th (Common in jazz music)</p><p>Diminished: This chord is fully diminished. (Think haunted house)</p><p>Half-Diminished: Has a raised 7th.  Used in jazz and classical, has a cool sound!</p></div><br><br>Listen to the chord several times. Try to come up with an image in your head when you hear a type of chord.  ie. Happy, Sad, Scary, Cool, Weird, Hip. This can be challenging but with some practice you will master all of the chords!')
 
-      $('.radio-container').html('<div><label for="M"><input type="radio" name="pitch" id="M" value="M" required> M</label></div><div><label for="m"><input type="radio" name="pitch" id="m" value="m" required> m</label></div><div><label for="MM7"><input type="radio" name="pitch" id="MM7" value="MM7" required> MM7</label></div><div><label for="Mm7"><input type="radio" name="pitch" id="Mm7" value="Mm7" required> Mm7</label></div><div><label for="mM7"><input type="radio" name="pitch" id="mM7" value="mM7" required> mM7</label></div><div><label for="mm7"><input type="radio" name="pitch" id="mm7" value="mm7" required> mm7</label></div><div><label for="diminished"><input type="radio" name="pitch" id="diminished" value="M" required> Diminished</label></div><div><label for="half-diminished"><input type="radio" name="pitch" id="half-diminished" value="half-diminished" required> Half-diminished</label></div>')
+      $('#final-instructions').html('Adjust volume to low. Listen to the chord. What is the chord type?')
+
+      $('.radio-container').html('<div><label for="M"><input type="radio" name="pitch" id="M" value="M" required> M</label></div><div><label for="m"><input type="radio" name="pitch" id="m" value="m" required> m</label></div><div><label for="MM7"><input type="radio" name="pitch" id="MM7" value="MM7" required> MM7</label></div><div><label for="Mm7"><input type="radio" name="pitch" id="Mm7" value="Mm7" required> Mm7 (Dominant 7th)</label></div><div><label for="mM7"><input type="radio" name="pitch" id="mM7" value="mM7" required> mM7</label></div><div><label for="mm7"><input type="radio" name="pitch" id="mm7" value="mm7" required> mm7</label></div><div><label for="diminished"><input type="radio" name="pitch" id="diminished" value="diminished" required> Diminished</label></div><div><label for="half-diminished"><input type="radio" name="pitch" id="half-diminished" value="half-diminished" required> Half-diminished</label></div>')
     }
   }
 
@@ -188,7 +190,7 @@ $('#playChord').click(function() {
     if (guess.val() === correctAnswer) {
       guessLabel.css('background-color', '#50c878')
       setTimeout(function() {
-        alert('Congratulations! That is correct.')
+        alert('Congratulations, that is correct! Progress saved.')
         guessLabel.css('background', 'none')
       }, 25)
 
@@ -204,7 +206,7 @@ $('#playChord').click(function() {
       correctLabel.css('background-color', '#50c878')
       guessLabel.css('background-color', '#ff9999')
       setTimeout(function() {
-        alert('Sorry. That is incorrect. The correct answer is: ' + correctLabel.text())
+        alert('Sorry, that is incorrect. The correct answer is: ' + correctLabel.text() + '. Progress saved.')
         guessLabel.css('background', 'none');
         correctLabel.css('background', 'none');
       }, 25)
@@ -529,10 +531,10 @@ $('#playChord').click(function() {
   }
 
   function buildChord(randomIdx) {
-    chord = 'M';
-    // chords[Math.floor(Math.random() * chords.length)]
-    let mapped;
+    chord = chords[Math.floor(Math.random() * chords.length)];
 
+    let mapped;
+    chordNote1 = randomIdx;
 
       function chordMap(arr) {
         return arr.map(function(item) {
@@ -546,18 +548,52 @@ $('#playChord').click(function() {
       }
     switch(chord) {
       case 'M':
-        chordNote1 = randomIdx;
         chordNote2 = randomIdx + 4;
         chordNote3 = randomIdx + 7;
         chordNote4 = randomIdx + 12;
-        mapped = chordMap([chordNote1,chordNote2,chordNote3,chordNote4]);
         break;
+      case 'm':
+          chordNote2 = randomIdx + 3;
+          chordNote3 = randomIdx + 7;
+          chordNote4 = randomIdx + 12;
+        break;
+      case 'MM7':
+          chordNote2 = randomIdx + 4;
+          chordNote3 = randomIdx + 7;
+          chordNote4 = randomIdx + 11;
+          break;
+      case 'Mm7':
+          chordNote2 = randomIdx + 4;
+          chordNote3 = randomIdx + 7;
+          chordNote4 = randomIdx + 10;
+          break;
+      case 'mM7':
+          chordNote2 = randomIdx + 3;
+          chordNote3 = randomIdx + 7;
+          chordNote4 = randomIdx + 11;
+          break;
+      case 'mm7':
+          chordNote2 = randomIdx + 3;
+          chordNote3 = randomIdx + 7;
+          chordNote4 = randomIdx + 10;
+          break;
+      case 'diminished':
+          chordNote2 = randomIdx + 3;
+          chordNote3 = randomIdx + 6;
+          chordNote4 = randomIdx + 9;
+          break;
+      case 'half-diminished':
+          chordNote2 = randomIdx + 3;
+          chordNote3 = randomIdx + 6;
+          chordNote4 = randomIdx + 10;
+          break;
     }
-
+    mapped = chordMap([chordNote1,chordNote2,chordNote3,chordNote4]);
     chordNote1Idx = sounds[mapped[0]][1]
     chordNote2Idx = sounds[mapped[1]][1]
     chordNote3Idx = sounds[mapped[2]][1]
     chordNote4Idx = sounds[mapped[3]][1]
+
 
     chordNote1Audio = document.createElement('audio')
     chordNote1Audio.setAttribute('src', chordNote1Idx)

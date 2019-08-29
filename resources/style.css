@@ -86,6 +86,9 @@ p {
   color: purple;
 }
 
+.chords-description {
+  text-align: left;
+}
 .game-type-buttons {
   display: flex;
   justify-content: center;
