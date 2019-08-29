@@ -144,6 +144,15 @@ p {
   color: dodgerblue;
 }
 
+#playChord:hover {
+  cursor: pointer;
+  color: dodgerblue;
+}
+
+.chords {
+  display: none;
+}
+
 form {
   background-color: white;
   display: flex;
@@ -282,3 +291,5 @@ select {
     top: 5px;
   }
 }
+
+

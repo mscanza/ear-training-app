@@ -20,15 +20,16 @@ $(document).ready(function() {
 
   const highNoteArray = ['pitch1', 'pitch2', 'same']
   const intervalsArray = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th']
-  const chords = ['major', 'minor', 'diminished']
+  const chords = ['M','m','MM7','Mm7','mM7', 'mm7', 'diminished', 'half-diminished']
 
-
+let chord;
 
   $('#highNote-button').click(function() {
     game = 'high-note';
     switchGame(game)
     $(this).css({ 'background-color': 'dodgerblue', 'color': 'white' })
     $('#intervals-button').css({ 'background-color': 'white', 'color': 'black' })
+    $('#chords-button').css({ 'background-color': 'white', 'color': 'black' })
 
   })
 
@@ -37,10 +38,35 @@ $(document).ready(function() {
     switchGame(game)
     $(this).css({ 'background-color': 'dodgerblue', 'color': 'white' })
     $('#highNote-button').css({ 'background-color': 'white', 'color': 'black' })
+    $('#chords-button').css({ 'background-color': 'white', 'color': 'black' })
 
   })
+
+  $('#chords-button').click(function() {
+    game = 'chord-sonority';
+    switchGame(game)
+    $(this).css({ 'background-color': 'dodgerblue', 'color': 'white' })
+    $('#highNote-button').css({ 'background-color': 'white', 'color': 'black' })
+    $('#intervals-button').css({ 'background-color': 'white', 'color': 'black' })
+  })
+
   let pitch1;
   let pitch2;
+
+  let chordNote1;
+  let chordNote2;
+  let chordNote3;
+  let chordNote4;
+
+  let chordNote1Idx;
+  let chordNote2Idx;
+  let chordNote3Idx;
+  let chordNote4Idx;
+
+  let chordNote1Audio;
+  let chordNote2Audio;
+  let chordNote3Audio;
+  let chordNote4Audio;
 
   let pitch1Index;
   let pitch2Index;
@@ -55,6 +81,10 @@ $(document).ready(function() {
 
   function switchGame(game) {
     if (game === 'intervals') {
+
+      $('.chords').css('display', 'none')
+      $('.pitches').css('display', 'block')
+
       $('.instructions').html('Ear Training is the ability to understand how one pitch or note relates to another, and how multiple pitches combine to form chords. With some practice, you will be able to recognize how these notes and chords relate to eachother in all music you listen to! <h2>Intervals</h2> Intervals takes High Note a step further.  Interval training involves determining the distance from one note to another. <a target="_blank" href="https://en.wikipedia.org/wiki/Interval_(music)#targetText=In%20music%20theory%2C%20an%20interval,such%20as%20in%20a%20chord.">Click here for a detailed description</a>.<br><br> Listen to both pitches and choose the correct interval. Make sure your sound is on low and have fun!')
 
       $('#final-instructions').html('Adjust volume to low. Listen to both pitches. Select the correct interval.')
@@ -66,16 +96,36 @@ $(document).ready(function() {
       return;
     }
     if (game === 'high-note') {
+
+      $('.chords').css('display', 'none')
+      $('.pitches').css('display', 'block')
+
       $('.instructions').html('Ear Training is the ability to understand how one pitch or note relates to another, and how multiple pitches combine to form chords. With some practice, you will be able to recognize how these notes and chords relate to eachother in all music you listen to! <h2>High Note</h2> One basic way to do this is to compare 2 pitches, and discern which pitch has a higher frequency than the other, or if they are in fact the same pitch. (Also called "unison")<br><br>Listen to both pitches and determine which is higher. Make sure your sound is on low and have fun!')
 
       $('#final-instructions').html('Adjust volume to low. Listen to both pitches. Which pitch is higher?')
 
       $('.radio-container').html('<div><label for="pitch1"><input type="radio" name="pitch" id="pitch1" value="pitch1" required> Pitch 1</label></div><div><label for="pitch2"><input type="radio" name="pitch" id="pitch2" value="pitch2" required> Pitch 2</label></div><div><label for="same"><input type="radio" name="pitch" id="same" value="same" required> Pitches are the same.</label></div>')
     }
+
+    if (game === 'chord-sonority') {
+      $('.chords').css('display', 'block')
+      $('.pitches').css('display', 'none')
+
+      $('#final-instructions').html('Adjust volume to low. Listen to the chord. What is the chord sonority?')
+
+      $('.radio-container').html('<div><label for="M"><input type="radio" name="pitch" id="M" value="M" required> M</label></div><div><label for="m"><input type="radio" name="pitch" id="m" value="m" required> m</label></div><div><label for="MM7"><input type="radio" name="pitch" id="MM7" value="MM7" required> MM7</label></div><div><label for="Mm7"><input type="radio" name="pitch" id="Mm7" value="Mm7" required> Mm7</label></div><div><label for="mM7"><input type="radio" name="pitch" id="mM7" value="mM7" required> mM7</label></div><div><label for="mm7"><input type="radio" name="pitch" id="mm7" value="mm7" required> mm7</label></div><div><label for="diminished"><input type="radio" name="pitch" id="diminished" value="M" required> Diminished</label></div><div><label for="half-diminished"><input type="radio" name="pitch" id="half-diminished" value="half-diminished" required> Half-diminished</label></div>')
+    }
   }
 
 
   //click handlers
+$('#playChord').click(function() {
+  chordNote1Audio.play();
+  chordNote2Audio.play();
+  chordNote3Audio.play();
+  chordNote4Audio.play();
+})
+
   $('#playPitch1').click(function() {
     pitch1Audio.play()
 
@@ -214,6 +264,7 @@ $(document).ready(function() {
     let userData = JSON.parse(localStorage.getItem($('#username').val()))
     let highNoteData = 0;
     let intervalsData = 0;
+    let chordsData = 0
     for (let key in userData.gameType['high-note']) {
       if (key !== 'total') {
         highNoteData += userData.gameType['high-note'][key];
@@ -222,6 +273,12 @@ $(document).ready(function() {
     for (let key in userData.gameType['intervals']) {
       if (key !== 'total') {
         intervalsData += userData.gameType['intervals'][key];
+      }
+    }
+
+    for (let key in userData.gameType['chord-sonority']) {
+      if (key !== 'total') {
+        chordsData += userData.gameType['chord-sonority'][key];
       }
     }
 
@@ -283,7 +340,8 @@ $(document).ready(function() {
         unload: true,
         columns: [
           ['high-note', highNoteData],
-          ['intervals', intervalsData]
+          ['intervals', intervalsData],
+          ['chord-type', chordsData]
         ]
       })
     } else if (selected === 'high-note') {
@@ -320,6 +378,26 @@ $(document).ready(function() {
           ['6th', userData.gameType['intervals']['6th']],
           ['7th', userData.gameType['intervals']['7th']],
           ['Octave', userData.gameType['intervals']['8th']]
+        ]
+      })
+    } else if (selected === 'chord-sonority') {
+      chart1.load({
+        columns: [
+          ['correct', userData.gameType['chord-sonority'].total - chordsData],
+          ['incorrect', chordsData]
+        ]
+      });
+      chart2.load({
+        unload: true,
+        columns: [
+          ['M',userData.gameType['chord-sonority']['M']],
+          ['m', userData.gameType['chord-sonority']['m']],
+          ['MM7', userData.gameType['chord-sonority']['MM7']],
+          ['Mm7', userData.gameType['chord-sonority']['Mm7']],
+          ['mM7', userData.gameType['chord-sonority']['mM7']],
+          ['mm7', userData.gameType['chord-sonority']['mm7']],
+          ['diminished', userData.gameType['chord-sonority']['diminished']],
+          ['half-diminished', userData.gameType['chord-sonority']['half-diminished']]
         ]
       })
     }
@@ -371,7 +449,7 @@ $(document).ready(function() {
   }
 
   function initialStats(user) {
-    localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner', gameType: { 'high-note': { 'pitch1': 0, 'pitch2': 0, 'same': 0, 'total': 0 }, 'intervals': { '1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0, '6th': 0, '7th': 0, '8th': 0, 'total': 0 } } }))
+    localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner', gameType: { 'high-note': { 'pitch1': 0, 'pitch2': 0, 'same': 0, 'total': 0 }, 'intervals': { '1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0, '6th': 0, '7th': 0, '8th': 0, 'total': 0 }, 'chord-sonority': {'M': 0, 'm': 0, 'MM7': 0, 'Mm7': 0, 'mM7': 0, 'mm7': 0, 'diminished': 0, 'half-diminished': 0, 'total': 0} } }))
   }
   function updateScore(user) {
     let userData = JSON.parse(localStorage.getItem(user));
@@ -392,6 +470,7 @@ $(document).ready(function() {
         return pitch1Index === pitch2Index;
       }
     }
+
     if (game === 'intervals') {
       let interval = Math.abs(pitch1Index - pitch2Index);
       if (guess === '1st') {
@@ -419,6 +498,10 @@ $(document).ready(function() {
         return interval === 12;
       }
     }
+
+    if (game === 'chord-sonority') {
+      return guess === chord;
+    }
   }
 
   function getCorrectAnswer() {
@@ -436,6 +519,58 @@ $(document).ready(function() {
         }
       }
     }
+    if (game === 'chord-sonority') {
+      for (let i = 0; i < chords.length; i++) {
+        if (checkAnswer(chords[i])) {
+          return chords[i];
+        }
+      }
+    }
+  }
+
+  function buildChord(randomIdx) {
+    chord = 'M';
+    // chords[Math.floor(Math.random() * chords.length)]
+    let mapped;
+
+
+      function chordMap(arr) {
+        return arr.map(function(item) {
+          if (item > sounds.length - 1) {
+             item -= sounds.length - 1;
+             return item;
+          } else {
+            return item;
+          }
+        })
+      }
+    switch(chord) {
+      case 'M':
+        chordNote1 = randomIdx;
+        chordNote2 = randomIdx + 4;
+        chordNote3 = randomIdx + 7;
+        chordNote4 = randomIdx + 12;
+        mapped = chordMap([chordNote1,chordNote2,chordNote3,chordNote4]);
+        break;
+    }
+
+    chordNote1Idx = sounds[mapped[0]][1]
+    chordNote2Idx = sounds[mapped[1]][1]
+    chordNote3Idx = sounds[mapped[2]][1]
+    chordNote4Idx = sounds[mapped[3]][1]
+
+    chordNote1Audio = document.createElement('audio')
+    chordNote1Audio.setAttribute('src', chordNote1Idx)
+
+    chordNote2Audio = document.createElement('audio')
+    chordNote2Audio.setAttribute('src', chordNote2Idx)
+
+    chordNote3Audio = document.createElement('audio')
+    chordNote3Audio.setAttribute('src', chordNote3Idx)
+
+    chordNote4Audio = document.createElement('audio')
+    chordNote4Audio.setAttribute('src', chordNote4Idx)
+
   }
 
 
@@ -443,6 +578,8 @@ $(document).ready(function() {
     document.getElementById('question').reset()
     pitch1 = sounds[Math.floor(Math.random() * sounds.length)];
     pitch2 = sounds[Math.floor(Math.random() * sounds.length)];
+
+    buildChord(Math.floor(Math.random() * sounds.length))
 
     pitch1Index = sounds.indexOf(pitch1);
     pitch2Index = sounds.indexOf(pitch2);

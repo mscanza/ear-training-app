@@ -47,6 +47,7 @@
                 <option value="overall" selected>Overall</option>
                 <option value="high-note">High Note</option>
                 <option value="intervals">Intervals</option>
+                <option value="chord-sonority">Chord Type</option>
               </select>
              <div id="analysis-container">
 
@@ -76,6 +77,10 @@
                   <div class="button-spacer">
                     <button id="intervals-button" class="button">Intervals</button>
                   </div>
+                  <div class="button-spacer">
+                      <button id="chords-button" class="button">Chord Type</button>
+                      <small>Advanced</small>
+                    </div>
             </div>
 
           </div>
@@ -89,6 +94,9 @@
           <small id="final-instructions">Adjust audio to low. Listen to both pitches. Which pitch is higher?</small>
           <div class="test">
             <form id="question">
+              <div class="chords">
+                  <p id="playChord">Chord: <i class="fas fa-play"></i></p>
+              </div>
               <div class="pitches">
                   <p id="playPitch1">Pitch 1: <i class="fas fa-play"></i></p>
                   <p id="playPitch2">Pitch 2: <i class="fas fa-play"></i></p>
