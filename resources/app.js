@@ -18,37 +18,9 @@ $(document).ready(function() {
     ['a5', "./resources/audio-files/a5.wav"]
   ]
 
-  const highNoteArray = ['pitch1', 'pitch2', 'same']
-  const intervalsArray = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th']
-  const chords = ['M','m','MM7','Mm7','mM7', 'mm7', 'diminished', 'half-diminished']
-
-let chord;
-
-  $('#highNote-button').click(function() {
-    game = 'high-note';
-    switchGame(game)
-    $(this).css({ 'background-color': 'dodgerblue', 'color': 'white' })
-    $('#intervals-button').css({ 'background-color': 'white', 'color': 'black' })
-    $('#chords-button').css({ 'background-color': 'white', 'color': 'black' })
-
-  })
-
-  $('#intervals-button').click(function() {
-    game = 'intervals'
-    switchGame(game)
-    $(this).css({ 'background-color': 'dodgerblue', 'color': 'white' })
-    $('#highNote-button').css({ 'background-color': 'white', 'color': 'black' })
-    $('#chords-button').css({ 'background-color': 'white', 'color': 'black' })
-
-  })
-
-  $('#chords-button').click(function() {
-    game = 'chord-sonority';
-    switchGame(game)
-    $(this).css({ 'background-color': 'dodgerblue', 'color': 'white' })
-    $('#highNote-button').css({ 'background-color': 'white', 'color': 'black' })
-    $('#intervals-button').css({ 'background-color': 'white', 'color': 'black' })
-  })
+  const highNoteArray = ['pitch1', 'pitch2', 'same'];
+  const intervalsArray = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'];
+  const chords = ['M', 'm', 'MM7', 'Mm7', 'mM7', 'mm7', 'diminished', 'half-diminished'];
 
   let pitch1;
   let pitch2;
@@ -76,6 +48,34 @@ let chord;
 
   let chart1;
   let chart2;
+
+  let chord;
+
+  $('#highNote-button').click(function() {
+    game = 'high-note';
+    switchGame(game)
+    $(this).css({ 'background-color': 'dodgerblue', 'color': 'white' })
+    $('#intervals-button').css({ 'background-color': 'white', 'color': 'black' })
+    $('#chords-button').css({ 'background-color': 'white', 'color': 'black' })
+
+  })
+
+  $('#intervals-button').click(function() {
+    game = 'intervals'
+    switchGame(game)
+    $(this).css({ 'background-color': 'dodgerblue', 'color': 'white' })
+    $('#highNote-button').css({ 'background-color': 'white', 'color': 'black' })
+    $('#chords-button').css({ 'background-color': 'white', 'color': 'black' })
+
+  })
+
+  $('#chords-button').click(function() {
+    game = 'chord-sonority';
+    switchGame(game)
+    $(this).css({ 'background-color': 'dodgerblue', 'color': 'white' })
+    $('#highNote-button').css({ 'background-color': 'white', 'color': 'black' })
+    $('#intervals-button').css({ 'background-color': 'white', 'color': 'black' })
+  })
 
   initialize()
 
@@ -121,12 +121,12 @@ let chord;
 
 
   //click handlers
-$('#playChord').click(function() {
-  chordNote1Audio.play();
-  chordNote2Audio.play();
-  chordNote3Audio.play();
-  chordNote4Audio.play();
-})
+  $('#playChord').click(function() {
+    chordNote1Audio.play();
+    chordNote2Audio.play();
+    chordNote3Audio.play();
+    chordNote4Audio.play();
+  })
 
   $('#playPitch1').click(function() {
     pitch1Audio.play()
@@ -396,7 +396,7 @@ $('#playChord').click(function() {
       chart2.load({
         unload: true,
         columns: [
-          ['M',userData.gameType['chord-sonority']['M']],
+          ['M', userData.gameType['chord-sonority']['M']],
           ['m', userData.gameType['chord-sonority']['m']],
           ['MM7', userData.gameType['chord-sonority']['MM7']],
           ['Mm7', userData.gameType['chord-sonority']['Mm7']],
@@ -455,7 +455,7 @@ $('#playChord').click(function() {
   }
 
   function initialStats(user) {
-    localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'Beginner', gameType: { 'high-note': { 'pitch1': 0, 'pitch2': 0, 'same': 0, 'total': 0 }, 'intervals': { '1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0, '6th': 0, '7th': 0, '8th': 0, 'total': 0 }, 'chord-sonority': {'M': 0, 'm': 0, 'MM7': 0, 'Mm7': 0, 'mM7': 0, 'mm7': 0, 'diminished': 0, 'half-diminished': 0, 'total': 0} } }))
+    localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'Beginner', gameType: { 'high-note': { 'pitch1': 0, 'pitch2': 0, 'same': 0, 'total': 0 }, 'intervals': { '1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0, '6th': 0, '7th': 0, '8th': 0, 'total': 0 }, 'chord-sonority': { 'M': 0, 'm': 0, 'MM7': 0, 'Mm7': 0, 'mM7': 0, 'mm7': 0, 'diminished': 0, 'half-diminished': 0, 'total': 0 } } }))
   }
   function updateScore(user) {
     let userData = JSON.parse(localStorage.getItem(user));
@@ -540,59 +540,59 @@ $('#playChord').click(function() {
     let mapped;
     chordNote1 = randomIdx;
 
-      function chordMap(arr) {
-        return arr.map(function(item) {
-          if (item > sounds.length - 1) {
-             item -= sounds.length - 1;
-             return item;
-          } else {
-            return item;
-          }
-        })
-      }
-    switch(chord) {
+    function chordMap(arr) {
+      return arr.map(function(item) {
+        if (item > sounds.length - 1) {
+          item -= sounds.length - 1;
+          return item;
+        } else {
+          return item;
+        }
+      })
+    }
+    switch (chord) {
       case 'M':
         chordNote2 = randomIdx + 4;
         chordNote3 = randomIdx + 7;
         chordNote4 = randomIdx + 12;
         break;
       case 'm':
-          chordNote2 = randomIdx + 3;
-          chordNote3 = randomIdx + 7;
-          chordNote4 = randomIdx + 12;
+        chordNote2 = randomIdx + 3;
+        chordNote3 = randomIdx + 7;
+        chordNote4 = randomIdx + 12;
         break;
       case 'MM7':
-          chordNote2 = randomIdx + 4;
-          chordNote3 = randomIdx + 7;
-          chordNote4 = randomIdx + 11;
-          break;
+        chordNote2 = randomIdx + 4;
+        chordNote3 = randomIdx + 7;
+        chordNote4 = randomIdx + 11;
+        break;
       case 'Mm7':
-          chordNote2 = randomIdx + 4;
-          chordNote3 = randomIdx + 7;
-          chordNote4 = randomIdx + 10;
-          break;
+        chordNote2 = randomIdx + 4;
+        chordNote3 = randomIdx + 7;
+        chordNote4 = randomIdx + 10;
+        break;
       case 'mM7':
-          chordNote2 = randomIdx + 3;
-          chordNote3 = randomIdx + 7;
-          chordNote4 = randomIdx + 11;
-          break;
+        chordNote2 = randomIdx + 3;
+        chordNote3 = randomIdx + 7;
+        chordNote4 = randomIdx + 11;
+        break;
       case 'mm7':
-          chordNote2 = randomIdx + 3;
-          chordNote3 = randomIdx + 7;
-          chordNote4 = randomIdx + 10;
-          break;
+        chordNote2 = randomIdx + 3;
+        chordNote3 = randomIdx + 7;
+        chordNote4 = randomIdx + 10;
+        break;
       case 'diminished':
-          chordNote2 = randomIdx + 3;
-          chordNote3 = randomIdx + 6;
-          chordNote4 = randomIdx + 9;
-          break;
+        chordNote2 = randomIdx + 3;
+        chordNote3 = randomIdx + 6;
+        chordNote4 = randomIdx + 9;
+        break;
       case 'half-diminished':
-          chordNote2 = randomIdx + 3;
-          chordNote3 = randomIdx + 6;
-          chordNote4 = randomIdx + 10;
-          break;
+        chordNote2 = randomIdx + 3;
+        chordNote3 = randomIdx + 6;
+        chordNote4 = randomIdx + 10;
+        break;
     }
-    mapped = chordMap([chordNote1,chordNote2,chordNote3,chordNote4]);
+    mapped = chordMap([chordNote1, chordNote2, chordNote3, chordNote4]);
     chordNote1Idx = sounds[mapped[0]][1]
     chordNote2Idx = sounds[mapped[1]][1]
     chordNote3Idx = sounds[mapped[2]][1]
