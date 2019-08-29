@@ -148,6 +148,10 @@ $('#playChord').click(function() {
 
   })
 
+  $('.fa-question-circle').click(function() {
+    $('.level-text').slideToggle('fast');
+  })
+
 
   //login click handlers
   $('#submitUser').click(function() {
@@ -430,7 +434,7 @@ $('#playChord').click(function() {
     $('#login').text(new Date(userData.lastLogin).toDateString())
     $('#current-streak').text(userData.currentStreak)
     $('#longest-streak').text(userData.longestStreak)
-    $('#level').text(userData.level)
+    $('#level').text(getLevel(userData))
     $('#accuracy').text(Number(userData.score[1]) * 100 === 0 ? 'N / A' : Math.floor(Number(userData.score[0]) / Number(userData.score[1]) * 100) + "%")
     $('#stats-score').text(`${userData.score[0]} / ${userData.score[1]}`)
     updateChart()
@@ -451,7 +455,7 @@ $('#playChord').click(function() {
   }
 
   function initialStats(user) {
-    localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner', gameType: { 'high-note': { 'pitch1': 0, 'pitch2': 0, 'same': 0, 'total': 0 }, 'intervals': { '1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0, '6th': 0, '7th': 0, '8th': 0, 'total': 0 }, 'chord-sonority': {'M': 0, 'm': 0, 'MM7': 0, 'Mm7': 0, 'mM7': 0, 'mm7': 0, 'diminished': 0, 'half-diminished': 0, 'total': 0} } }))
+    localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'Beginner', gameType: { 'high-note': { 'pitch1': 0, 'pitch2': 0, 'same': 0, 'total': 0 }, 'intervals': { '1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0, '6th': 0, '7th': 0, '8th': 0, 'total': 0 }, 'chord-sonority': {'M': 0, 'm': 0, 'MM7': 0, 'Mm7': 0, 'mM7': 0, 'mm7': 0, 'diminished': 0, 'half-diminished': 0, 'total': 0} } }))
   }
   function updateScore(user) {
     let userData = JSON.parse(localStorage.getItem(user));
@@ -609,6 +613,37 @@ $('#playChord').click(function() {
 
   }
 
+  function getLevel(userData) {
+
+    let accuracy = Math.floor(Number(userData.score[0]) / Number(userData.score[1]) * 100);
+    let totals = [];
+    for (let key in userData.gameType) {
+      totals.push(Number(userData.gameType[key].total))
+    }
+    if (accuracy >= 97) {
+      if (totals.every(function(total) {
+        return total >= 100;
+      })) {
+        return 'Expert';
+      }
+    }
+    if (accuracy >= 90) {
+      if (totals.every(function(total) {
+        return total >= 50;
+      })) {
+        return 'Advanced';
+      }
+    }
+    if (accuracy >= 80) {
+      if (totals.every(function(total) {
+        return total >= 20;
+      })) {
+        return 'Intermediate';
+      }
+    }
+    return 'Beginner'
+
+  }
 
   function initialize() {
     document.getElementById('question').reset()
