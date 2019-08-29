@@ -190,7 +190,7 @@ $('#playChord').click(function() {
       setTimeout(function() {
         alert('Congratulations! That is correct.')
         guessLabel.css('background', 'none')
-      }, 0)
+      }, 500)
 
       userData.score[0]++;
       userData.currentStreak++;
@@ -207,7 +207,7 @@ $('#playChord').click(function() {
         alert('Sorry. That is incorrect. The correct answer is: ' + correctLabel.text())
         guessLabel.css('background', 'none');
         correctLabel.css('background', 'none');
-      }, 0)
+      }, 500)
 
       userData.gameType[game][correctAnswer]++;
       userData.currentStreak = 0;
