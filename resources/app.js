@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-var game = 'high-note'
+  var game = 'high-note'
   //sound database
   const sounds = [
     ['a4', "./resources/audio-files/a4.wav"],
@@ -18,25 +18,25 @@ var game = 'high-note'
     ['a5', "./resources/audio-files/a5.wav"]
   ]
 
-const highNoteArray = ['pitch1', 'pitch2', 'same']
-const intervalsArray = ['1st','2nd','3rd','4th','5th','6th','7th','8th']
-const chords = ['major', 'minor', 'diminished']
+  const highNoteArray = ['pitch1', 'pitch2', 'same']
+  const intervalsArray = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th']
+  const chords = ['major', 'minor', 'diminished']
 
 
 
   $('#highNote-button').click(function() {
     game = 'high-note';
     switchGame(game)
-    $(this).css({'background-color': 'dodgerblue', 'color': 'white'})
-    $('#intervals-button').css({'background-color': 'white', 'color': 'black'})
+    $(this).css({ 'background-color': 'dodgerblue', 'color': 'white' })
+    $('#intervals-button').css({ 'background-color': 'white', 'color': 'black' })
 
   })
 
   $('#intervals-button').click(function() {
     game = 'intervals'
     switchGame(game)
-    $(this).css({'background-color': 'dodgerblue', 'color': 'white'})
-    $('#highNote-button').css({'background-color': 'white', 'color': 'black'})
+    $(this).css({ 'background-color': 'dodgerblue', 'color': 'white' })
+    $('#highNote-button').css({ 'background-color': 'white', 'color': 'black' })
 
   })
   let pitch1;
@@ -49,6 +49,7 @@ const chords = ['major', 'minor', 'diminished']
   let pitch2Audio;
 
   let chart1;
+  let chart2;
 
   initialize()
 
@@ -62,7 +63,7 @@ const chords = ['major', 'minor', 'diminished']
 
 
 
-return;
+      return;
     }
     if (game === 'high-note') {
       $('.instructions').html('Ear Training is the ability to understand how one pitch or note relates to another, and how multiple pitches combine to form chords. With some practice, you will be able to recognize how these notes and chords relate to eachother in all music you listen to! <h2>High Note</h2> One basic way to do this is to compare 2 pitches, and discern which pitch has a higher frequency than the other, or if they are in fact the same pitch. (Also called "unison")<br><br>Listen to both pitches and determine which is higher. Make sure your sound is on low and have fun!')
@@ -90,20 +91,13 @@ return;
   })
 
   $('#stats-toggle').click(function() {
-
+    updateChart()
     $('#userStats').slideToggle('fast');
 
   })
 
-  // $('#analysis').click(function() {
-  //   updateChart();
 
-  //   $('#chart1-container').slideToggle('fast')
-  //   $('#chart2-container').slideToggle('fast')
-  // });
-
-
-//login click handlers
+  //login click handlers
   $('#submitUser').click(function() {
     if ($('#username').val() === '') {
       alert('Please enter a username')
@@ -131,7 +125,7 @@ return;
 
 
 
-//answer question
+  //answer question
   $('#question').submit(function(e) {
     let user = $('#username').val();
     let userData = JSON.parse(localStorage.getItem(user))
@@ -142,11 +136,11 @@ return;
     let correctLabel = $('#' + correctAnswer).parent()
 
     if (guess.val() === correctAnswer) {
-      guessLabel.css('background-color','#50c878')
-      setTimeout(function(){
+      guessLabel.css('background-color', '#50c878')
+      setTimeout(function() {
         alert('Congratulations! That is correct.')
-        guessLabel.css('background','none')
-      },0)
+        guessLabel.css('background', 'none')
+      }, 0)
 
       userData.score[0]++;
       userData.currentStreak++;
@@ -161,9 +155,9 @@ return;
       guessLabel.css('background-color', '#ff9999')
       setTimeout(function() {
         alert('Sorry. That is incorrect. The correct answer is: ' + correctLabel.text())
-        guessLabel.css('background','none');
+        guessLabel.css('background', 'none');
         correctLabel.css('background', 'none');
-      },0)
+      }, 0)
 
       userData.gameType[game][correctAnswer]++;
       userData.currentStreak = 0;
@@ -177,7 +171,7 @@ return;
     return;
   })
 
-  $('#reset-stats').click(function(){
+  $('#reset-stats').click(function() {
     let user = $('#username').val()
     if (!confirm('Are you sure you want to reset all stats?')) {
       return;
@@ -214,86 +208,139 @@ return;
 
   $('#stats-select').change(updateChart)
 
-function updateChart() {
-  let selected = $('#stats-select').val();
+  function updateChart() {
+    let selected = $('#stats-select').val();
 
-  let userData = JSON.parse(localStorage.getItem($('#username').val()))
-  let highNoteData = 0;
-  let intervalsData = 0;
-  for (let key in userData.gameType['high-note']) {
-    if (key !== 'total') {
-      highNoteData += userData.gameType['high-note'][key];
+    let userData = JSON.parse(localStorage.getItem($('#username').val()))
+    let highNoteData = 0;
+    let intervalsData = 0;
+    for (let key in userData.gameType['high-note']) {
+      if (key !== 'total') {
+        highNoteData += userData.gameType['high-note'][key];
+      }
     }
-  }
-  for (let key in userData.gameType['intervals']) {
-    if (key !== 'total') {
-      intervalsData += userData.gameType['intervals'][key];
+    for (let key in userData.gameType['intervals']) {
+      if (key !== 'total') {
+        intervalsData += userData.gameType['intervals'][key];
+      }
     }
-  }
 
 
-if (!chart1) {
-  chart1 = c3.generate({
-    bindto: '#chart1',
-    size: {
-      height: 240,
-      width: 240
-    },
-    data: {
-        columns: [
+    if (!chart1 && !chart2) {
+      chart1 = c3.generate({
+        bindto: '#chart1',
+        size: {
+          height: 240,
+          width: 240
+        },
+        data: {
+          columns: [
             ['correct', userData.score[0]],
             ['incorrect', userData.score[1] - userData.score[0]],
-        ],
-        type : 'pie',
-        colors: {
-          'correct': '#50c878',
-          'incorrect': '#ff9999'
+          ],
+          type: 'pie',
+          colors: {
+            'correct': '#50c878',
+            'incorrect': '#ff9999'
+          }
         }
+      });
+      chart2 = c3.generate({
+        bindto: '#chart2',
+        size: {
+          height: 240,
+          width: 240
+        },
+        data: {
+          columns: [
+            ['high-note', highNoteData],
+            ['intervals', intervalsData]
+          ],
+          type: 'bar',
+
+        },
+        bar: {
+          width: {
+            ratio: 0.5 // this makes bar width 50% of length between ticks
+          }
+          // or
+          //width: 100 // this makes bar width 100px
+        }
+      });
+
+      return;
     }
-});
-  return;
-}
-
-if (selected === 'overall') {
-  chart1.load({
-    columns: [
-      ['correct', userData.score[0]],
-      ['incorrect', userData.score[1] - userData.score[0]]
-    ]
-  })
-} else if (selected === 'high-note') {
-  chart1.load({
-    columns: [
-      ['correct', userData.gameType['high-note'].total - highNoteData],
-      ['incorrect', highNoteData]
-    ]
-  })
-} else if (selected === 'intervals') {
-  chart1.load({
-    columns: [
-      ['correct', userData.gameType['intervals'].total - intervalsData],
-      ['incorrect', intervalsData]
-    ]
-  })
-}
-}
-
-function unloadChart() {
-  chart1.unload({
-    ids: 'correct'
-});
-chart1.unload({
-  ids: 'incorrect'
-})
-}
 
 
-//update date
-function updateDate() {
-  let userData = JSON.parse(localStorage.getItem($('#username').val()));
-  userData.lastLogin = Date.now();
-  localStorage.setItem($('#username').val(), JSON.stringify(userData));
-}
+    if (selected === 'overall') {
+      chart1.load({
+        columns: [
+          ['correct', userData.score[0]],
+          ['incorrect', userData.score[1] - userData.score[0]]
+        ]
+      })
+      chart2.load({
+        unload: true,
+        columns: [
+          ['high-note', highNoteData],
+          ['intervals', intervalsData]
+        ]
+      })
+    } else if (selected === 'high-note') {
+      chart1.load({
+        columns: [
+          ['correct', userData.gameType['high-note'].total - highNoteData],
+          ['incorrect', highNoteData]
+        ]
+      })
+      chart2.load({
+        unload: true,
+        columns: [
+          ['Pitch1', userData.gameType['high-note'].pitch1],
+          ['Pitch2', userData.gameType['high-note'].pitch2],
+          ['Same Pitch', userData.gameType['high-note'].same]
+        ]
+      });
+
+    } else if (selected === 'intervals') {
+      chart1.load({
+        columns: [
+          ['correct', userData.gameType['intervals'].total - intervalsData],
+          ['incorrect', intervalsData]
+        ]
+      })
+      chart2.load({
+        unload: true,
+        columns: [
+          ['Unison', userData.gameType['intervals']['1st']],
+          ['2nd', userData.gameType['intervals']['2nd']],
+          ['3rd', userData.gameType['intervals']['3rd']],
+          ['4th', userData.gameType['intervals']['4th']],
+          ['5th', userData.gameType['intervals']['5th']],
+          ['6th', userData.gameType['intervals']['6th']],
+          ['7th', userData.gameType['intervals']['7th']],
+          ['Octave', userData.gameType['intervals']['8th']]
+        ]
+      })
+    }
+  }
+
+  function unloadChart() {
+    chart1.unload({
+      ids: 'correct'
+    });
+    chart1.unload({
+      ids: 'incorrect'
+    })
+  }
+
+
+  //update date
+  function updateDate() {
+    let userData = JSON.parse(localStorage.getItem($('#username').val()));
+    userData.lastLogin = Date.now();
+    localStorage.setItem($('#username').val(), JSON.stringify(userData));
+  }
 
   //update user stats
   function updateStats(user) {
@@ -324,7 +371,7 @@ function updateDate() {
   }
 
   function initialStats(user) {
-    localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner', gameType: {'high-note': {'pitch1': 0, 'pitch2': 0, 'same': 0, 'total': 0}, 'intervals': {'1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0, '6th': 0, '7th': 0, '8th': 0, 'total': 0}} }))
+    localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'beginner', gameType: { 'high-note': { 'pitch1': 0, 'pitch2': 0, 'same': 0, 'total': 0 }, 'intervals': { '1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0, '6th': 0, '7th': 0, '8th': 0, 'total': 0 } } }))
   }
   function updateScore(user) {
     let userData = JSON.parse(localStorage.getItem(user));
@@ -372,24 +419,24 @@ function updateDate() {
         return interval === 12;
       }
     }
-    }
+  }
 
-    function getCorrectAnswer() {
-      if (game === 'high-note') {
-        for (let i = 0; i < highNoteArray.length; i++) {
-          if (checkAnswer(highNoteArray[i])) {
-            return highNoteArray[i];
-          }
-        }
-      }
-      if (game === 'intervals') {
-        for (let i = 0; i < intervalsArray.length; i++) {
-          if (checkAnswer(intervalsArray[i])) {
-            return intervalsArray[i];
-          }
+  function getCorrectAnswer() {
+    if (game === 'high-note') {
+      for (let i = 0; i < highNoteArray.length; i++) {
+        if (checkAnswer(highNoteArray[i])) {
+          return highNoteArray[i];
         }
       }
     }
+    if (game === 'intervals') {
+      for (let i = 0; i < intervalsArray.length; i++) {
+        if (checkAnswer(intervalsArray[i])) {
+          return intervalsArray[i];
+        }
+      }
+    }
+  }
 
 
   function initialize() {
@@ -397,8 +444,8 @@ function updateDate() {
     pitch1 = sounds[Math.floor(Math.random() * sounds.length)];
     pitch2 = sounds[Math.floor(Math.random() * sounds.length)];
 
-     pitch1Index = sounds.indexOf(pitch1);
-     pitch2Index = sounds.indexOf(pitch2);
+    pitch1Index = sounds.indexOf(pitch1);
+    pitch2Index = sounds.indexOf(pitch2);
 
     pitch1Audio = document.createElement('audio');
     pitch1Audio.setAttribute('src', pitch1[1]);
