@@ -471,7 +471,6 @@ $(document).ready(function() {
       acc.total = 0;
       return acc;
     }, {})
-    console.log(chordsInitialize)
 
 
     localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'Beginner', gameType: { 'high-note': highNoteInitialize, 'intervals': intervalsInitialize, 'chord-sonority': chordsInitialize } }))
