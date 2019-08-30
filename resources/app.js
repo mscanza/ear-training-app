@@ -22,6 +22,14 @@ $(document).ready(function() {
   const intervalsArray = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'];
   const chords = ['M', 'm', 'MM7', 'Mm7', 'mM7', 'mm7', 'diminished', 'half-diminished'];
 
+  let audioElementArray = []
+  for (let i = 0; i < sounds.length; i++) {
+   var myAudioElement =  document.createElement('audio')
+    myAudioElement.setAttribute('id', 'pitchAudio' + i)
+    myAudioElement.setAttribute('src', sounds[i][1])
+    audioElementArray.push(myAudioElement)
+  }
+
   let pitch1;
   let pitch2;
 
@@ -35,16 +43,8 @@ $(document).ready(function() {
   let chordNote3Idx;
   let chordNote4Idx;
 
-  let chordNote1Audio;
-  let chordNote2Audio;
-  let chordNote3Audio;
-  let chordNote4Audio;
-
   let pitch1Index;
   let pitch2Index;
-
-  let pitch1Audio;
-  let pitch2Audio;
 
   let chart1;
   let chart2;
@@ -122,20 +122,21 @@ $(document).ready(function() {
 
   //click handlers
   $('#playChord').click(function() {
-    chordNote1Audio.play();
-    chordNote2Audio.play();
-    chordNote3Audio.play();
-    chordNote4Audio.play();
+    chordNote1Idx.play();
+    chordNote2Idx.play();
+    chordNote3Idx.play();
+    chordNote4Idx.play();
+
   })
 
   $('#playPitch1').click(function() {
-    pitch1Audio.play()
+    pitch1.play()
 
 
   })
 
   $('#playPitch2').click(function() {
-    pitch2Audio.play()
+    pitch2.play()
   })
 
   $('#toggle-instructions').click(function() {
@@ -455,7 +456,25 @@ $(document).ready(function() {
   }
 
   function initialStats(user) {
-    localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'Beginner', gameType: { 'high-note': { 'pitch1': 0, 'pitch2': 0, 'same': 0, 'total': 0 }, 'intervals': { '1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0, '6th': 0, '7th': 0, '8th': 0, 'total': 0 }, 'chord-sonority': { 'M': 0, 'm': 0, 'MM7': 0, 'Mm7': 0, 'mM7': 0, 'mm7': 0, 'diminished': 0, 'half-diminished': 0, 'total': 0 } } }))
+    let highNoteInitialize = highNoteArray.reduce(function(acc, i) {
+      acc[i] = 0;
+      acc.total = 0;
+      return acc;
+    },{});
+    let intervalsInitialize = intervalsArray.reduce(function(acc,i) {
+      acc[i] = 0;
+      acc.total = 0;
+      return acc;
+    }, {});
+    let chordsInitialize = chords.reduce(function(acc,i) {
+      acc[i] = 0;
+      acc.total = 0;
+      return acc;
+    }, {})
+    console.log(chordsInitialize)
+
+
+    localStorage.setItem(user, JSON.stringify({ score: [0, 0], currentStreak: 0, lastLogin: Date.now(), longestStreak: 0, level: 'Beginner', gameType: { 'high-note': highNoteInitialize, 'intervals': intervalsInitialize, 'chord-sonority': chordsInitialize } }))
   }
   function updateScore(user) {
     let userData = JSON.parse(localStorage.getItem(user));
@@ -538,10 +557,11 @@ $(document).ready(function() {
     chord = chords[Math.floor(Math.random() * chords.length)];
 
     let mapped;
-    chordNote1 = randomIdx;
+    let scaleDegrees = []
 
     function chordMap(arr) {
       return arr.map(function(item) {
+        item += randomIdx;
         if (item > sounds.length - 1) {
           item -= sounds.length - 1;
           return item;
@@ -552,64 +572,35 @@ $(document).ready(function() {
     }
     switch (chord) {
       case 'M':
-        chordNote2 = randomIdx + 4;
-        chordNote3 = randomIdx + 7;
-        chordNote4 = randomIdx + 12;
+        scaleDegrees = [0,4,7,12]
         break;
       case 'm':
-        chordNote2 = randomIdx + 3;
-        chordNote3 = randomIdx + 7;
-        chordNote4 = randomIdx + 12;
+        scaleDegrees = [0,3,7,12]
         break;
       case 'MM7':
-        chordNote2 = randomIdx + 4;
-        chordNote3 = randomIdx + 7;
-        chordNote4 = randomIdx + 11;
+        scaleDegrees = [0,4,7,11]
         break;
       case 'Mm7':
-        chordNote2 = randomIdx + 4;
-        chordNote3 = randomIdx + 7;
-        chordNote4 = randomIdx + 10;
+        scaleDegrees = [0,4,7,10]
         break;
       case 'mM7':
-        chordNote2 = randomIdx + 3;
-        chordNote3 = randomIdx + 7;
-        chordNote4 = randomIdx + 11;
+        scaleDegrees = [0,3,7,11]
         break;
       case 'mm7':
-        chordNote2 = randomIdx + 3;
-        chordNote3 = randomIdx + 7;
-        chordNote4 = randomIdx + 10;
+        scaleDegrees = [0,3,7,10]
         break;
       case 'diminished':
-        chordNote2 = randomIdx + 3;
-        chordNote3 = randomIdx + 6;
-        chordNote4 = randomIdx + 9;
+        scaleDegrees = [0,3,6,9]
         break;
       case 'half-diminished':
-        chordNote2 = randomIdx + 3;
-        chordNote3 = randomIdx + 6;
-        chordNote4 = randomIdx + 10;
+        scaleDegrees = [0,3,6,10]
         break;
     }
-    mapped = chordMap([chordNote1, chordNote2, chordNote3, chordNote4]);
-    chordNote1Idx = sounds[mapped[0]][1]
-    chordNote2Idx = sounds[mapped[1]][1]
-    chordNote3Idx = sounds[mapped[2]][1]
-    chordNote4Idx = sounds[mapped[3]][1]
-
-
-    chordNote1Audio = document.createElement('audio')
-    chordNote1Audio.setAttribute('src', chordNote1Idx)
-
-    chordNote2Audio = document.createElement('audio')
-    chordNote2Audio.setAttribute('src', chordNote2Idx)
-
-    chordNote3Audio = document.createElement('audio')
-    chordNote3Audio.setAttribute('src', chordNote3Idx)
-
-    chordNote4Audio = document.createElement('audio')
-    chordNote4Audio.setAttribute('src', chordNote4Idx)
+    mapped = chordMap(scaleDegrees);
+    chordNote1Idx = audioElementArray[mapped[0]]
+    chordNote2Idx = audioElementArray[mapped[1]]
+    chordNote3Idx = audioElementArray[mapped[2]]
+    chordNote4Idx = audioElementArray[mapped[3]]
 
   }
 
@@ -647,17 +638,14 @@ $(document).ready(function() {
 
   function initialize() {
     document.getElementById('question').reset()
-    pitch1 = sounds[Math.floor(Math.random() * sounds.length)];
-    pitch2 = sounds[Math.floor(Math.random() * sounds.length)];
+    pitch1Index = Math.floor(Math.random() * audioElementArray.length);
+    pitch2Index = Math.floor(Math.random() * audioElementArray.length)
+    pitch1 = audioElementArray[pitch1Index];
+    pitch2 = audioElementArray[pitch2Index];
 
     buildChord(Math.floor(Math.random() * sounds.length))
 
-    pitch1Index = sounds.indexOf(pitch1);
-    pitch2Index = sounds.indexOf(pitch2);
-
-    pitch1Audio = document.createElement('audio');
-    pitch1Audio.setAttribute('src', pitch1[1]);
-    pitch2Audio = document.createElement('audio')
-    pitch2Audio.setAttribute('src', pitch2[1]);
   }
+
 })
+
